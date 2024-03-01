@@ -1,0 +1,10 @@
+-- Done Landing Page, need to chnage some informations like mission, vision
+-- need to add another tabs in recent projects
+
+2024/03/02 04:11 AM
+-- added, tab for User Login
+-- done, design of login form
+-- working, show password function
+-- added, link for create account
+-- done, desing of registration form 
+-- working, password 1 and password 2 verification
