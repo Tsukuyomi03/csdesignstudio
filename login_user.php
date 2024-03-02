@@ -1,6 +1,10 @@
 <?php
 include("assets/php/config.php");
 session_start();
+if (isset($_SESSION['User'])) {
+    header('Location: user_index.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
