@@ -1,7 +1,7 @@
 <?php
 include("assets/php/config.php");
-session_start()
-    ?>
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +24,8 @@ session_start()
     <link href="assets/css/main.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 </head>
 <style>
     .menu-img {
@@ -33,6 +35,36 @@ session_start()
 </style>
 
 <body>
+    <div>
+        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    text: '<?php echo $_SESSION['message'] ?>',
+                })
+            </script>
+        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    text: '<?php echo $_SESSION['message'] ?>',
+                })
+            </script>
+        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'download'): ?>
+            <script>
+                Swal.fire({
+                    title: 'Congrats',
+                    text: "Your PDS is now generated and ready to download",
+                    icon: 'success',
+                    confirmButtonText: '<a href="completed/<?php echo $_SESSION['message'] ?>" download style="color:white;">Download</a>',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                })
+            </script>
+        <?php endif; ?>
+        <?php unset($_SESSION['message']); ?>
+        <?php unset($_SESSION['status']); ?>
+    </div>
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
             <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">

@@ -1,7 +1,7 @@
 <?php
 include("assets/php/config.php");
-session_start()
-    ?>
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +24,9 @@ session_start()
     <link href="assets/css/main.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+
 </head>
 <style>
     .menu-img {
@@ -33,6 +36,36 @@ session_start()
 </style>
 
 <body>
+    <div>
+        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    text: '<?php echo $_SESSION['message'] ?>',
+                })
+            </script>
+        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    text: '<?php echo $_SESSION['message'] ?>',
+                })
+            </script>
+        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'download'): ?>
+            <script>
+                Swal.fire({
+                    title: 'Congrats',
+                    text: "Your PDS is now generated and ready to download",
+                    icon: 'success',
+                    confirmButtonText: '<a href="completed/<?php echo $_SESSION['message'] ?>" download style="color:white;">Download</a>',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                })
+            </script>
+        <?php endif; ?>
+        <?php unset($_SESSION['message']); ?>
+        <?php unset($_SESSION['status']); ?>
+    </div>
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
             <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
@@ -53,7 +86,7 @@ session_start()
         <section id="hero" class="hero align-items-center section-bg">
             <div class="container">
                 <div class="row justify-content-between gy-5">
-                    <form>
+                    <form method="post" action="assets/php/register.php">
                         <div class="col-lg-6">
                             <h2>create Account</h2>
                             <h6>Personal Information</h6>
@@ -62,25 +95,27 @@ session_start()
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="bi-person"></i></div>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Name" required>
+                                    <input type="text" class="form-control" placeholder="Name" required name="name">
                                 </div>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="bi-person"></i></div>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Last Name" required>
+                                    <input type="text" class="form-control" placeholder="Last Name" required
+                                        name="surname">
                                 </div>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="bi-telephone"></i></div>
                                     </div>
-                                    <input type="tel" class="form-control" placeholder="Contact No" required>
+                                    <input type="tel" class="form-control" placeholder="Contact No" required
+                                        name="contact">
                                 </div>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="bi-envelope"></i></div>
                                     </div>
-                                    <input type="email" class="form-control" placeholder="Email" required>
+                                    <input type="email" class="form-control" placeholder="Email" required name="email">
                                 </div>
                                 <h6>Account Information</h6>
                                 <div class="col-auto">
@@ -88,7 +123,8 @@ session_start()
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="bi-person"></i></div>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Username" required>
+                                        <input type="text" class="form-control" placeholder="Username" required
+                                            name="uname">
                                     </div>
                                 </div>
                                 <div class="col-auto">
@@ -97,7 +133,7 @@ session_start()
                                             <div class="input-group-text"><i class="bi-person"></i></div>
                                         </div>
                                         <input type="Password" class="form-control" placeholder="Password" id="pword1"
-                                            required>
+                                            required name="pword">
                                     </div>
                                 </div>
                                 <div class="col-auto">
@@ -156,7 +192,8 @@ session_start()
                 document.getElementById("pword2").style.border = "2px solid red";
                 document.getElementById('submit').disabled = true;
             }
-        } </script>
+        }
+    </script>
 </body>
 
 </html>

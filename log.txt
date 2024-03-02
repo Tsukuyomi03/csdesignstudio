@@ -8,3 +8,9 @@
 -- added, link for create account
 -- done, desing of registration form 
 -- working, password 1 and password 2 verification
+
+2024/03/02
+-- normalization implemented on tbl_users (registration)
+-- working, registration
+-- working, sweetalert
+

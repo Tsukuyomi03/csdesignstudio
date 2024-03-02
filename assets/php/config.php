@@ -1,12 +1,13 @@
 <?php
-$hostname     = "localhost";
-$username     = "root";
-$password     = "";
+$folder = '/ecommerce/';
+$hostname = "localhost";
+$username = "root";
+$password = "";
 $databasename = "csdesignstudio";
 
-$conn = mysqli_connect($hostname, $username, $password, $databasename);
+$db = mysqli_connect($hostname, $username, $password, $databasename);
 
-if (!$conn) {
+if (!$db) {
     die("Unable to Connect database: " . mysqli_connect_error());
 }
 ?>
