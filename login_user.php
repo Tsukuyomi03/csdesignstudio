@@ -50,17 +50,6 @@ session_start();
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'download'): ?>
-            <script>
-                Swal.fire({
-                    title: 'Congrats',
-                    text: "Your PDS is now generated and ready to download",
-                    icon: 'success',
-                    confirmButtonText: '<a href="completed/<?php echo $_SESSION['message'] ?>" download style="color:white;">Download</a>',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                })
-            </script>
         <?php endif; ?>
         <?php unset($_SESSION['message']); ?>
         <?php unset($_SESSION['status']); ?>
@@ -78,7 +67,6 @@ session_start();
             </nav>
             <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
             <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
         </div>
     </header>
     <main id="main">
@@ -87,13 +75,14 @@ session_start();
                 <div class="row justify-content-between gy-5">
                     <div class="col-lg-6">
                         <h2>Welcome User!</h2>
-                        <form>
+                        <form method="post" action="assets/php/login.php">
                             <div class="col-auto">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="bi-person"></i></div>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Username">
+                                    <input type="text" class="form-control" placeholder="Username" name="uname"
+                                        required>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -101,7 +90,8 @@ session_start();
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="bi-lock"></i></div>
                                     </div>
-                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <input type="password" class="form-control" id="password" placeholder="Password"
+                                        name="pword" required>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -111,7 +101,7 @@ session_start();
                             </div>
                             <div class="col-auto">
                                 <div class="input-group mb-2">
-                                    <button type="submit" class="btn btn-dark form-control">Login</button>
+                                    <button type="submit" class="btn btn-dark form-control" name="login">Login</button>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -123,16 +113,13 @@ session_start();
                                         <a href="#"> Forgot your password?</a>
                                     </div>
                                 </div>
-
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
