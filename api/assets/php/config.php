@@ -1,5 +1,5 @@
 <?php
-$folder = '/ecommerce/';
+$folder = '/ecommerce/api';
 $hostname = "localhost";
 $username = "root";
 $password = "";
