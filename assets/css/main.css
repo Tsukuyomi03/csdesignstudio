@@ -251,7 +251,6 @@ section {
 
   .navbar a,
   .navbar a:focus {
-    display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 3px;
@@ -402,7 +401,6 @@ section {
 
   .navbar a,
   .navbar a:focus {
-    display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;

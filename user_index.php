@@ -24,11 +24,17 @@ if (!isset($_SESSION['User'])) {
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 </head>
 <style>
     .menu-img {
@@ -38,6 +44,25 @@ if (!isset($_SESSION['User'])) {
 </style>
 
 <body>
+    <div>
+        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    text: '<?php echo $_SESSION['message'] ?>',
+                })
+            </script>
+        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    text: '<?php echo $_SESSION['message'] ?>',
+                })
+            </script>
+        <?php endif; ?>
+        <?php unset($_SESSION['message']); ?>
+        <?php unset($_SESSION['status']); ?>
+    </div>
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
             <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
@@ -45,21 +70,30 @@ if (!isset($_SESSION['User'])) {
             </a>
             <nav id="navbar" class="navbar">
                 <ul>
+                    <li><a href="user_index.php"> Products</a></li>
+                    <li><a> </a></li>
+                    <div class="vr"></div>
+                    <li><a> </a></li>
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </button>
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
-                                class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                class="mr-2 d-none d-lg-inline text-gray-600">
                                 <?php echo $user ?>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="https://eplanmo.herokuapp.com/epm_profile.php">
+                            <a class="dropdown-item" href="user_profile.php">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="https://eplanmo.herokuapp.com/assets/php/session_logout.php"
+                            <a class="dropdown-item" href="assets/php/logout.php"
                                 onclick="return confirm('Are you sure you want to Log Out?')">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
@@ -70,239 +104,84 @@ if (!isset($_SESSION['User'])) {
             </nav>
             <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
             <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
         </div>
     </header>
-    <section id="hero" class="hero d-flex align-items-center section-bg">
-        <div class="container">
-            <div class="row justify-content-between gy-5">
-                <div
-                    class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
-                    <h2>CS <span style="color:gray;">Design Studio</span> </h2>
-                    <p>is a interior and exterior designer company it offers design and build for the customer
-                        convinience.</p>
-                    <div class="d-flex">
-                    </div>
-                </div>
-                <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
-                    <img src="assets/img/modular_kitchen.jpg" class="img-fluid" alt="" data-aos="zoom-out"
-                        data-aos-delay="300">
-                </div>
-            </div>
-        </div>
-    </section>
     <main id="main">
-        <section id="about" class="why-us section-bg">
+        <section id="about" class="why-us section-bg" style="margin-top:2%">
             <div class="container">
                 <div class="row gy-4">
                     <div class="col-lg-4">
-                        <div class="why-box">
-                            <h3>Why Choose CS Design Studio</h3>
-                            <p>
-                                Our mission is to create a space of beauty, functionality, and comfort that perfectly
-                                matches your personality and your business or family's needs. We achieve this by
-                                considering every facet of your life – including your daily rituals, profession, hobbies
-                                and of course design tastes. CS Design Studio aim to translate the client's ideas and
-                                the professional holistic vision in a renovated space combining aesthetics, comfort and
-                                practicality.
-                            </p>
-                        </div>
                     </div>
-                    <div class="col-lg-8 d-flex align-items-center">
-                        <div class="row gy-4">
-
-                            <div class="col-xl-4">
-                                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                    <i class="bi bi-clipboard-data"></i>
-                                    <h4>Interior Designs</h4>
-                                    <p> improve the effectiveness, accessibility, functionality and aesthetic appeal of
-                                        an environment in a way that ensures the safe and optimal occupation and use of
-                                        the interior space</p>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4">
-                                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                    <i class="bi bi-gem"></i>
-                                    <h4>Furnitures</h4>
-                                    <p>structurally sound, solid and well-built to ensure its prolonged use over the
-                                        years. You should feel safe when sitting in, or leaning on the piece, and you
-                                        shouldn't be able to recognize any sway, give or flex in it</p>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4">
-                                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                    <i class="bi bi-inboxes"></i>
-                                    <h4>Printing Services</h4>
-                                    <p>large and small print runs, finishing services such as folding, trimming and
-                                        bindery, large format printing of posters and banners, and much more</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
-
             </div>
         </section>
         <section id="projects" class="menu">
             <div class="container">
-                <div class="section-header">
-                    <h2>Our Projects</h2>
-                    <p>Check Our <span>Recent Projects</span></p>
-                </div>
-                <ul class="nav nav-tabs d-flex justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-paete">
-                            <h4>Paete</h4>
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade active show" id="menu-paete">
-                        <div class="tab-header text-center">
-                            <h3>Paete Laguna</h3>
-                        </div>
-                        <div class="row gy-5">
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/1.jpg" class="glightbox"><img src="assets/img/paete/1.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
+                <div class="row">
+                    <div class="col-lg-2 col-6 mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                                alt="..." />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">Fancy Product</h5>
+                                    $40.00 - $80.00
+                                </div>
                             </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/2.jpg" class="glightbox"><img src="assets/img/paete/2.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/3.jpg" class="glightbox"><img src="assets/img/paete/3.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/4.jpg" class="glightbox"><img src="assets/img/paete/4.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/5.jpg" class="glightbox"><img src="assets/img/paete/5.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/6.jpg" class="glightbox"><img src="assets/img/paete/6.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/7.jpg" class="glightbox"><img src="assets/img/paete/7.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/8.jpg" class="glightbox"><img src="assets/img/paete/8.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/9.jpg" class="glightbox"><img src="assets/img/paete/9.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="contact" class="contact">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Contact</h2>
-                    <p>Need Help? <span style="color:gray;">Contact Us</span></p>
-                </div>
-                <div>
-                    <div style="max-width:100%;overflow:hidden;color:red;width:100%;height:500px;">
-                        <div id="canvas-for-googlemap" style="height:100%; width:100%;max-width:100%;"><iframe
-                                style="height:100%;width:100%;border:0;" frameborder="0"
-                                src="https://www.google.com/maps/embed/v1/place?q=14.27180718647457,+121.42470728378021&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
-                        </div><a class="code-for-google-map" href="https://www.bootstrapskins.com/themes"
-                            id="authorize-map-data"></a>
-                        <style>
-                            #canvas-for-googlemap img {
-                                max-width: none !important;
-                                background: none !important;
-                                font-size: inherit;
-                                font-weight: inherit;
-                            }
-                        </style>
-                    </div>
-                </div>
-                <br>
-                <div class="row gy-4">
-                    <div class="col-md-6">
-                        <div class="info-item  d-flex align-items-center">
-                            <i class="icon bi bi-map flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Our Address</h3>
-                                <p>Pagsawitan, Santa Cruz, Laguna</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-item d-flex align-items-center">
-                            <i class="icon bi bi-envelope flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Email Us</h3>
-                                <p>tjrc_11@yahoo.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-item  d-flex align-items-center">
-                            <i class="icon bi bi-telephone flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Call Us</h3>
-                                <p>(+63) 956 068 8086</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-item  d-flex align-items-center">
-                            <i class="icon bi bi-share flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Opening Hours</h3>
-                                <div>
-                                    <span style="color:green">Always Open</span>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" data-toggle="modal"
+                                        data-target="#exampleModalCenter" href="#">View Product</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form p-3 p-md-4">
-                    <div class="row">
-                        <div class="col-xl-6 form-group">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                required>
-                        </div>
-                        <div class="col-xl-6 form-group">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
-                                required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message"
-                            required></textarea>
-                    </div>
-                    <div class="my-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
-                    </div>
-                    <div class="text-center"><button type="submit" style="background-color:black;">Send Message</button>
-                    </div>
-                </form>
-
             </div>
         </section>
-
     </main>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <section class="py-5">
+                        <div class="container px-4 px-lg-5 my-5">
+                            <div class="row gx-4 gx-lg-5 align-items-center">
+                                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
+                                        src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                                <div class="col-md-6">
+                                    <div class="small mb-1">SKU: BST-498</div>
+                                    <h1 class="display-5 fw-bolder">Shop item template</h1>
+                                    <div class="fs-5 mb-5">
+                                        <span class="text-decoration-line-through">$45.00</span>
+                                        <span>$40.00</span>
+                                    </div>
+                                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
+                                        at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni,
+                                        accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+                                    <div class="d-flex">
+                                        <input class="form-control text-center me-3" id="inputQuantity" type="num"
+                                            value="1" style="max-width: 3rem" />
+                                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                            <i class="bi-cart-fill me-1"></i>
+                                            Add to cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <footer id="footer" class="footer">
         <div class="container">
             <div class="row gy-3">
@@ -353,10 +232,10 @@ if (!isset($_SESSION['User'])) {
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
