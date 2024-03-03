@@ -10,7 +10,7 @@ if ($result->num_rows > 0) {
     $_SESSION['Admin'] = $row['Username'];
     $_SESSION['status'] = "success";
     $_SESSION['message'] = "Login Sucessful";
-    header("Location: " . $folder . "/admin/admin_dashboard.php");
+    header("Location: " . $folder . "admin/admin_dashboard.php");
     exit();
 } else {
     $_SESSION['status'] = "error";
