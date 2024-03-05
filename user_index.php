@@ -118,24 +118,31 @@ if (!isset($_SESSION['User'])) {
         <section id="projects" class="menu">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-2 col-6 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                                alt="..." />
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <h5 class="fw-bolder">Fancy Product</h5>
-                                    $40.00 - $80.00
+                    <?php
+                    $sql = "SELECT * FROM `tbl_products`";
+                    $result = $db->query($sql);
+                    while ($prow = mysqli_fetch_array($result)) {
+                        ?>
+                        <div class="col-lg-2 col-6 mb-5">
+                            <div class="card h-100">
+                                <img class="card-img-top"
+                                    src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>">
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bolder">Fancy Product</h5>
+                                        P
+                                        <?php echo doubleval($prow['P_Price']) ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark mt-auto" data-toggle="modal"
-                                        data-target="#exampleModalCenter" href="#">View Product</a>
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" data-toggle="modal"
+                                            data-target="#exampleModalCenter" href="#">View Product</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </section>

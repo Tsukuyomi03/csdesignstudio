@@ -2,7 +2,7 @@
 include("assets/php/config.php");
 session_start();
 if (!isset($_SESSION['Admin'])) {
-    header('Location: index.php');
+    header("Location: " . $folder . "login_admin.php");
     exit();
 } else {
     $admin = $_SESSION['Admin'];
