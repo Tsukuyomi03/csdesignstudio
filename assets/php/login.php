@@ -11,7 +11,7 @@ if ($result->num_rows > 0) {
     $_SESSION['User'] = $row['Username'];
     $_SESSION['status'] = "success";
     $_SESSION['message'] = "Login Sucessful";
-    header("Location: " . $folder . "user_index.php");
+    header("Location: " . $folder . "user/user_index.php");
     exit();
 } else {
     $_SESSION['status'] = "error";

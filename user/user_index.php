@@ -3,7 +3,7 @@ include("assets/php/config.php");
 session_start();
 
 if (!isset($_SESSION['User'])) {
-    header('Location: index.php');
+    header("Location: " . $folder . "login_user.php");
     exit();
 } else {
     $user = $_SESSION['User'];
@@ -63,7 +63,7 @@ if (!isset($_SESSION['User'])) {
         <?php unset($_SESSION['message']); ?>
         <?php unset($_SESSION['status']); ?>
     </div>
-    <header id="header" class="header fixed-top d-flex align-items-center">
+    <header id="header" class="header fixed-top d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-between">
             <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
                 <h1>CS <span style="color:gray">Design Studio</span></h1>
@@ -74,11 +74,11 @@ if (!isset($_SESSION['User'])) {
                     <li><a> </a></li>
                     <div class="vr"></div>
                     <li><a> </a></li>
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    </button>
+                    <a href="user_cart.php"><button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="tatc"></span>
+                        </button></a>
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
@@ -106,15 +106,10 @@ if (!isset($_SESSION['User'])) {
             <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
         </div>
     </header>
-    <main id="main">
-        <section id="about" class="why-us section-bg" style="margin-top:2%">
-            <div class="container">
-                <div class="row gy-4">
-                    <div class="col-lg-4">
-                    </div>
-                </div>
-            </div>
-        </section>
+    <main id="main" style="overflow-x:hidden; overflow-y:scroll;">
+        <div class="row">
+            <br>
+        </div>
         <section id="projects" class="menu">
             <div class="container">
                 <div class="row">
@@ -123,13 +118,15 @@ if (!isset($_SESSION['User'])) {
                     $result = $db->query($sql);
                     while ($prow = mysqli_fetch_array($result)) {
                         ?>
-                        <div class="col-lg-2 col-6 mb-5">
+                        <div class="col-lg-3 col-3 mb-5">
                             <div class="card h-100">
                                 <img class="card-img-top"
                                     src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>">
                                 <div class="card-body p-4">
                                     <div class="text-center">
-                                        <h5 class="fw-bolder">Fancy Product</h5>
+                                        <h5 class="fw-bolder">
+                                            <?php echo $prow['P_Name'] ?>
+                                        </h5>
                                         P
                                         <?php echo doubleval($prow['P_Price']) ?>
                                     </div>
@@ -137,7 +134,13 @@ if (!isset($_SESSION['User'])) {
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
                                         <a class="btn btn-outline-dark mt-auto" data-toggle="modal"
-                                            data-target="#exampleModalCenter" href="#">View Product</a>
+                                            data-target="#viewProducts" data-pid="<?php echo $prow['ID'] ?>"
+                                            data-pname="<?php echo $prow['P_Name'] ?>"
+                                            data-pdes="<?php echo $prow['P_Description'] ?>"
+                                            data-ptype="<?php echo $prow['P_Type'] ?>"
+                                            data-pprice="<?php echo $prow['P_Price'] ?>"
+                                            data-whatever="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) . '' ?>"
+                                            href="#">View Product</a>
                                     </div>
                                 </div>
                             </div>
@@ -148,8 +151,8 @@ if (!isset($_SESSION['User'])) {
         </section>
     </main>
 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="viewProducts" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -157,28 +160,35 @@ if (!isset($_SESSION['User'])) {
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <section class="py-5">
-                        <div class="container px-4 px-lg-5 my-5">
+                        <div class="container px-4 px-lg-4 my-5">
                             <div class="row gx-4 gx-lg-5 align-items-center">
-                                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
-                                        src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" id="productImage" src="">
+                                </div>
                                 <div class="col-md-6">
-                                    <div class="small mb-1">SKU: BST-498</div>
-                                    <h1 class="display-5 fw-bolder">Shop item template</h1>
+                                    <input type="text" name="pid" id="pid" hidden>
+                                    <h2 class="display-5 fw-bolder" id="pname">Shop item template</h2>
                                     <div class="fs-5 mb-5">
-                                        <span class="text-decoration-line-through">$45.00</span>
-                                        <span>$40.00</span>
+                                        <h6 id="pprice">P</h6>
                                     </div>
-                                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-                                        at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni,
-                                        accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
-                                    <div class="d-flex">
-                                        <input class="form-control text-center me-3" id="inputQuantity" type="num"
-                                            value="1" style="max-width: 3rem" />
-                                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                            <i class="bi-cart-fill me-1"></i>
-                                            Add to cart
-                                        </button>
-                                    </div>
+                                    <p class="lead" id="pdes"></p>
+                                    <table class="table table-">
+                                        <tr>
+                                            <td><input class="form-control" id="qty" type="num" name="qty" value="1">
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-outline-dark" type="button"
+                                                    onclick="addToCart();" value="" id="patc">
+                                                    <i class="bi-cart-fill me-1"></i>
+                                                    Add to cart
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-outline-success" type="button">
+                                                    <i class="bi-cart-fill me-1"></i>
+                                                    Buy Now
+                                                </button>
+                                            </td>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +199,7 @@ if (!isset($_SESSION['User'])) {
     </div>
 
 
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer fixed-bottom">
         <div class="container">
             <div class="row gy-3">
                 <div class="col-lg-3 col-md-6 d-flex">
@@ -236,9 +246,8 @@ if (!isset($_SESSION['User'])) {
             </div>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -250,6 +259,60 @@ if (!isset($_SESSION['User'])) {
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'assets/ajax/get_total_cart.php',
+                success: function (data) {
+                    document.getElementById("tatc").textContent = data;
+                }
+            })
+        });
+        function addToCart() {
+            $.ajax({
+                type: "POST",
+                url: "assets/ajax/user_addtocart.php?user=<?php echo $user ?>",
+                data: {
+                    id: $("#patc").val(),
+                    qty: $("#qty").val(),
+                },
+                success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Added to Cart',
+                        })
+                    }
+                    else if (dataResult.statusCode == 201) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Failed',
+                        })
+                    }
+                }
+            });
+        }
+        $('#viewProducts').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var pid = button.data('pid')
+            var pname = button.data('pname')
+            var pdes = button.data('pdes')
+            var ptype = button.data('ptype')
+            var pprice = button.data('pprice')
+            var pimg = button.data('whatever')
+            var modal = $(this)
+
+            document.getElementById("pname").textContent = pname;
+            document.getElementById("pprice").textContent = "P " + pprice;
+            document.getElementById("pdes").textContent = pdes;
+            document.getElementById("productImage").src = pimg;
+            document.getElementById("patc").value = pid;
+
+        });
+
+    </script>
 </body>
 
 </html>

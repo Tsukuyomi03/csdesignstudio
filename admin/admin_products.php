@@ -334,7 +334,17 @@ if (!isset($_SESSION['Admin'])) {
                 }
             })
         }
-
+        function addToCart($___user, $___order, $___quantity) {
+            $.ajax({
+                url: 'user_addToCart.php?user=' + $___user + 'order=' + $___order + 'qty=' + $___quantity,
+                type: 'POST',
+                async: true,
+                cache: false,
+                contentType: false,
+                processData: false,
+            }
+            );
+        }
         $(document).ready(function () {
             $('#productTable').DataTable({
                 "autoWidth": true
@@ -362,6 +372,7 @@ if (!isset($_SESSION['Admin'])) {
             var modal = $(this)
             document.getElementById("sample").src = pid;
         })
+
     </script>
 </body>
 
