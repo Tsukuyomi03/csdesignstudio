@@ -85,82 +85,103 @@ session_start();
     <main id="main">
         <section id="hero" class="hero align-items-center section-bg">
             <div class="container">
-                <div class="row justify-content-between gy-5">
-                    <form method="post" action="assets/php/register.php">
-                        <div class="col-lg-6">
-                            <h2>create Account</h2>
+                <form method="post" action="assets/php/register.php">
+                    <div class="row">
+                        <div class="col-6">
                             <h6>Personal Information</h6>
-                            <div class="col-auto">
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="bi-person"></i></div>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Name" required name="name">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-person"></i></div>
                                 </div>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="bi-person"></i></div>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Last Name" required
-                                        name="surname">
+                                <input type="text" class="form-control" placeholder="Name" required name="name"
+                                    style="text-transform: uppercase">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-person"></i></div>
                                 </div>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="bi-telephone"></i></div>
-                                    </div>
-                                    <input type="tel" class="form-control" placeholder="Contact No" required
-                                        name="contact">
+                                <input type="text" class="form-control" placeholder="Last Name" required name="surname"
+                                    style="text-transform: uppercase">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-telephone"></i></div>
                                 </div>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="bi-envelope"></i></div>
-                                    </div>
-                                    <input type="email" class="form-control" placeholder="Email" required name="email">
+                                <input type="tel" class="form-control" placeholder="Contact No" required name="contact">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-envelope"></i></div>
                                 </div>
-                                <h6>Account Information</h6>
-                                <div class="col-auto">
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="bi-person"></i></div>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="Username" required
-                                            name="uname">
-                                    </div>
+                                <input type="email" class="form-control" placeholder="Email" required name="email">
+                            </div>
+                            <h6>Address</h6>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
                                 </div>
-                                <div class="col-auto">
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="bi-person"></i></div>
-                                        </div>
-                                        <input type="Password" class="form-control" placeholder="Password" id="pword1"
-                                            required name="pword">
-                                    </div>
+                                <input style="text-transform: uppercase" type="text" class="form-control"
+                                    placeholder="House No. / Street / Subdivision" required name="street">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
                                 </div>
-                                <div class="col-auto">
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="bi-person"></i></div>
-                                        </div>
-                                        <input type="password" class="form-control" placeholder="Re-Enter Password"
-                                            id="pword2" onkeyup='passConfirm();' required>
-                                    </div>
+                                <input type="text" style="text-transform: uppercase" class="form-control"
+                                    placeholder="Barangay" required name="brgy">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
                                 </div>
-                                <div class="col-auto">
-                                    <div class="input-group mb-2">
-                                        <input id="show" type="checkbox" onclick="showPass()">&nbsp;Show Password
-                                    </div>
+                                <input type="text" class="form-control" style="text-transform: uppercase"
+                                    placeholder="City" required name="city">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
                                 </div>
-                                <div class="col-auto">
-                                    <div class="input-group mb-2">
-                                        <button type="submit" id="submit"
-                                            class="btn btn-outline-dark form-control">Register</button>
-                                    </div>
-                                </div>
+                                <input type="text" class="form-control" style="text-transform: uppercase"
+                                    placeholder="Province" required name="province">
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-6">
+                            <h6>Account Information</h6>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-person"></i></div>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Username" required name="uname">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-person"></i></div>
+                                </div>
+                                <input type="Password" class="form-control" placeholder="Password" id="pword1" required
+                                    name="pword">
+                            </div>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="bi-person"></i></div>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Re-Enter Password" id="pword2"
+                                    onkeyup='passConfirm();' required>
+                            </div>
+
+
+                            <div class="input-group mb-2">
+                                <input id="show" type="checkbox" onclick="showPass()">&nbsp;Show Password
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <button type="submit" id="submit" style="float:right;"
+                        class="btn btn-outline-dark">Register</button>
+                </form>
             </div>
+
             </div>
         </section>
     </main>

@@ -145,10 +145,10 @@ if (!isset($_SESSION['User'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2">
-                        <a href="user_profile.php"><button class="btn btn-primary form-control"><i class="bi-person"
+                        <a href="user_profile.php"><button class="btn form-control"><i class="bi-person"
                                     style="font-size:20px;">
                                 </i> Profile</button></button></a>
-                        <a href="user_settings.php"><button class="btn form-control"><i class="bi-gear"
+                        <a href="user_settings.php"><button class="btn btn-primary form-control"><i class="bi-gear"
                                     style="font-size:20px;">
                                 </i> Settings</button></button></a>
                     </div>

@@ -31,8 +31,7 @@ if (!isset($_SESSION['User'])) {
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 </head>
@@ -43,7 +42,7 @@ if (!isset($_SESSION['User'])) {
     }
 </style>
 
-<body>
+<body onload="loadCart();   ">
     <div>
         <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
@@ -93,8 +92,7 @@ if (!isset($_SESSION['User'])) {
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="assets/php/logout.php"
-                                onclick="return confirm('Are you sure you want to Log Out?')">
+                            <a class="dropdown-item" onclick="logout();">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -261,14 +259,14 @@ if (!isset($_SESSION['User'])) {
     <script src="assets/js/main.js"></script>
 
     <script>
-        $(document).ready(function () {
+        function loadCart() {
             $.ajax({
                 url: 'assets/ajax/get_total_cart.php',
                 success: function (data) {
                     document.getElementById("tatc").textContent = data;
                 }
             })
-        });
+        }
         function addToCart() {
             $.ajax({
                 type: "POST",
@@ -284,6 +282,7 @@ if (!isset($_SESSION['User'])) {
                             icon: 'success',
                             text: 'Added to Cart',
                         })
+                        loadCart();
                     }
                     else if (dataResult.statusCode == 201) {
                         Swal.fire({
@@ -311,7 +310,21 @@ if (!isset($_SESSION['User'])) {
             document.getElementById("patc").value = pid;
 
         });
-
+        function logout() {
+            Swal.fire({
+                title: 'CONFIRMATION',
+                text: "Are you sure you want to logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'assets/php/user_logout.php';
+                }
+            })
+        };
     </script>
 </body>
 

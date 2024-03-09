@@ -31,8 +31,7 @@ if (!isset($_SESSION['User'])) {
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 </head>
@@ -97,8 +96,7 @@ if (!isset($_SESSION['User'])) {
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="assets/php/user_logout.php"
-                                onclick="return confirm('Are you sure you want to Log Out?')">
+                            <a class="dropdown-item" onclick="logout();">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -164,7 +162,9 @@ if (!isset($_SESSION['User'])) {
                                         <td>Product Type:
                                             <?php echo $prow['P_Type'] ?>
                                         </td>
-                                        <td><button class="btn btn-danger form-control">Remove</button></button></td>
+                                        <td><button class="btn btn-danger form-control"
+                                                onclick="delete_cart(<?php echo $prow['Cart_ID'] ?>)">Remove</button></button>
+                                        </td>
                                         <td><button class="btn btn-primary form-control">Checkout</button></button></td>
                                     </tr>
                                 </table>
@@ -274,6 +274,37 @@ if (!isset($_SESSION['User'])) {
                 type: "POST",
                 url: "assets/ajax/user_minusQTY.php?user=<?php echo $user ?>&pid=" + pid,
             });
+        }
+        function logout() {
+            Swal.fire({
+                title: 'CONFIRMATION',
+                text: "Are you sure you want to logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'assets/php/user_logout.php';
+                }
+            })
+        }
+        function delete_cart($___id) {
+            var pid = $___id;
+            Swal.fire({
+                title: 'CONFIRMATION',
+                text: "Are you sure you want to delete this product?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'assets/php/user_deleteCart.php?id=' + pid;
+                }
+            })
         }
     </script>
 </body>
