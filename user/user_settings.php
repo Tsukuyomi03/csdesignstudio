@@ -1,7 +1,6 @@
 <?php
 include("assets/php/config.php");
 session_start();
-
 if (!isset($_SESSION['User'])) {
     header("Location: " . $folder . "login_user.php");
     exit();
@@ -10,32 +9,7 @@ if (!isset($_SESSION['User'])) {
     $sql = "SELECT * FROM `tbl_users` WHERE Username = '$user' LIMIT 1";
     $result = $db->query($sql);
     $user_row = $result->fetch_assoc();
-    if (isset($_POST["update"])) {
-        $name = $_POST["name"];
-        $sname = $_POST["surname"];
-        $contact = $_POST["contact"];
-        $email = $_POST["email"];
-        $street = $_POST["street"];
-        $brgy = $_POST["brgy"];
-        $city = $_POST["city"];
-        $province = $_POST["province"];
-
-        $sql2 = "UPDATE `tbl_users` SET `Name`='$name',`Last_Name`='$sname',`Contact`='$contact',`Email`='$email',`Street`='$street',`Brgy`='$brgy',`City`='$city',`Province`='$province' WHERE `Username`='$user'";
-        $result2 = $db->query($sql2);
-        if ($result2) {
-            $_SESSION['status'] = "success";
-            $_SESSION['message'] = "Update Successful";
-            header("Location: " . $folder . "user/user_profile.php");
-            exit();
-        } else {
-            $_SESSION['status'] = "success";
-            $_SESSION['message'] = "Login Sucessful";
-            header("Location: " . $folder . "user/user_profile.php");
-            exit();
-        }
-    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,10 +32,7 @@ if (!isset($_SESSION['User'])) {
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
-
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 </head>
 <style>
@@ -72,6 +43,7 @@ if (!isset($_SESSION['User'])) {
 
     .btn {
         border: 1px solid gray;
+        text-align: left;
     }
 </style>
 
@@ -97,7 +69,7 @@ if (!isset($_SESSION['User'])) {
     </div>
     <header id="header" class="header fixed-top d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="user_index.php" class="logo d-flex align-items-center me-auto me-lg-0">
                 <h1>CS <span style="color:gray">Design Studio</span></h1>
             </a>
             <nav id="navbar" class="navbar">
@@ -145,86 +117,49 @@ if (!isset($_SESSION['User'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2">
+                        <a href="user_orders.php"><button class="btn form-control"><i class="bi-box"
+                                    style="font-size:20px;">
+                                </i> Orders</button></button></a>
                         <a href="user_profile.php"><button class="btn form-control"><i class="bi-person"
                                     style="font-size:20px;">
-                                </i> Profile</button></button></a>
+                                </i> Profile</button></a>
                         <a href="user_settings.php"><button class="btn btn-primary form-control"><i class="bi-gear"
                                     style="font-size:20px;">
-                                </i> Settings</button></button></a>
+                                </i> Settings</button></a>
                     </div>
                     <div class="col-lg-10">
                         <div class="container">
-                            <form method="post" action="">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h6>Personal Information</h6>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi-person"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control" required name="name"
-                                                style="text-transform: uppercase"
-                                                value="<?php echo $user_row['Name'] ?>">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>PASSWORD MANAGER</h6>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="bi-lock"></i></div>
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi-person"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control" required name="surname"
-                                                style="text-transform: uppercase"
-                                                value="<?php echo $user_row['Last_Name'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi-telephone"></i></div>
-                                            </div>
-                                            <input type="tel" class="form-control" required name="contact"
-                                                value="<?php echo $user_row['Contact'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi-envelope"></i></div>
-                                            </div>
-                                            <input type="email" class="form-control" required name="email"
-                                                value="<?php echo $user_row['Email'] ?>">
-                                        </div>
+                                        <input id="opword" type="password" class="form-control" required name="opword"
+                                            placeholder="Enter Old Password">
                                     </div>
-                                    <div class="col-6">
-                                        <h6>Address</h6>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input style="text-transform: uppercase" type="text" class="form-control"
-                                                required name="street" value="<?php echo $user_row['Street'] ?>">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="bi-lock"></i></div>
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input type="text" style="text-transform: uppercase" class="form-control"
-                                                required name="brgy" value="<?php echo $user_row['Brgy'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control" style="text-transform: uppercase"
-                                                required name="city" value="<?php echo $user_row['City'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control" style="text-transform: uppercase"
-                                                required name="province" value="<?php echo $user_row['Province'] ?>">
-                                        </div>
+                                        <input id="npword" type="password" class="form-control" required name="npword"
+                                            placeholder="Enter New Password">
                                     </div>
-
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="bi-lock"></i></div>
+                                        </div>
+                                        <input id="cnpword" type="password" class="form-control" required name="cnpword"
+                                            placeholder="Re-Enter New Password" onkeyup='passConfirm();'>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <input id="show" type="checkbox" onclick="showPass()">&nbsp;Show Password
+                                    </div>
                                 </div>
-                                <button type="submit" name="update" style="float:right;"
-                                    class="btn btn-outline-dark">UPDATE</button>
-                            </form>
+                            </div>
+                            <button style="float:left;" class="btn btn-outline-dark" id="updatePassword">UPDATE
+                                PASSWORD</button>
                         </div>
                     </div>
                 </div>
@@ -244,7 +179,6 @@ if (!isset($_SESSION['User'])) {
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
-
     <script>
         $(document).ready(function () {
             $.ajax({
@@ -252,6 +186,48 @@ if (!isset($_SESSION['User'])) {
                 success: function (data) {
                     document.getElementById("tatc").textContent = data;
                 }
+            });
+            $('#updatePassword').on('click', function () {
+                var opword = $('#opword').val();
+                var npword = $('#npword').val();
+                var cnpword = $('#cnpword').val();
+                $.ajax({
+                    url: "assets/ajax/user_updatePassword.php",
+                    type: "POST",
+                    data: {
+                        opword: opword,
+                        npword: npword,
+                        cnpword: cnpword,
+                    },
+                    cache: false,
+                    success: function (dataResult) {
+                        var dataResult = JSON.parse(dataResult);
+                        if (dataResult.statusCode == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Password Updated Successfully',
+                            })
+                        }
+                        else if (dataResult.statusCode == 201) {
+                            Swal.fire({
+                                icon: 'error',
+                                text: 'Invalid Password',
+                            })
+                        }
+                        else if (dataResult.statusCode == 203) {
+                            Swal.fire({
+                                icon: 'error',
+                                text: 'Cant Use Old Password',
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                text: 'Operation Failed',
+                            })
+                        }
+                    }
+                });
             });
         });
         function logout() {
@@ -269,6 +245,31 @@ if (!isset($_SESSION['User'])) {
                 }
             })
         };
+        function showPass() {
+            var x = document.getElementById("opword");
+            var y = document.getElementById("npword");
+            var z = document.getElementById("cnpword");
+            if (x.type === "password") {
+                x.type = "text";
+                y.type = "text";
+                z.type = "text";
+            } else {
+                x.type = "password";
+                y.type = "password";
+                z.type = "password";
+            }
+        }
+        var passConfirm = function () {
+            if (document.getElementById("npword").value == document.getElementById("cnpword").value) {
+                document.getElementById("npword").style.border = "1px solid rgb(209, 211, 226)";
+                document.getElementById("cnpword").style.border = "1px solid rgb(209, 211, 226)";
+                document.getElementById('updatePassword').disabled = false;
+            } else {
+                document.getElementById("npword").style.border = "2px solid red";
+                document.getElementById("cnpword").style.border = "2px solid red";
+                document.getElementById('updatePassword').disabled = true;
+            }
+        }
     </script>
 </body>
 

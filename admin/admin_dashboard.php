@@ -6,6 +6,18 @@ if (!isset($_SESSION['Admin'])) {
     exit();
 } else {
     $admin = $_SESSION['Admin'];
+
+    $data1 = '';
+    $data2 = '';
+    $sql = "SELECT  DATE_FORMAT(`Order_Completed`,'%m-%d-%y') AS `Current`, COUNT(`Order_Total`) AS `Total` FROM `tbl_orders` WHERE `Order_Completed` BETWEEN CURDATE()-7 AND CURDATE() GROUP BY `Current`";
+    $result = mysqli_query($db, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+
+        $data1 = $data1 . '"' . $row['Current'] . '",';
+        $data2 = $data2 . '"' . $row['Total'] . '",';
+    }
+    $data1 = trim($data1, ",");
+    $data2 = trim($data2, ",");
 }
 ?>
 <!DOCTYPE html>
@@ -93,7 +105,7 @@ if (!isset($_SESSION['Admin'])) {
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" onclick="logout();">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -136,100 +148,38 @@ if (!isset($_SESSION['Admin'])) {
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-secondary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                                Total Sales</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalSales">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Filter by : </div>
-                                            <a class="dropdown-item" href="#">Daily</a>
-                                            <a class="dropdown-item" href="#">Weekly</a>
-                                            <a class="dropdown-item" href="#">Monthly</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Sales Overview</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
+                                    <canvas id="mychart"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="assets/php/admin_logout.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="addEduc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Eligibility</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <form action="assets/php/add_eligibility.php" method="POST" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="row">
-                            <table class="nowrap table">
-                                <tr>
-                                    <td>Career Service</td>
-                                    <td><input type="text" name="cse" class="form-control" required></td>
-                                    <td>Ratings</td>
-                                    <td><input type="text" name="rate" class="form-control" required></td>
-                                </tr>
-                                <tr>
-                                    <td>Date of Examnation</td>
-                                    <td><input type="date" name="doe" class="form-control" required></td>
-                                    <td>Place of Examination</td>
-                                    <td><input type="text" name="poe" class="form-control" required></td>
-                                </tr>
-                                <tr>
-                                    <td>License Number</td>
-                                    <td><input type="text" name="lno" class="form-control" required></td>
-                                    <td>Date of Validity</td>
-                                    <td><input type="date" name="ldv" class="form-control" required></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 files">
-                                <input type="file" name="file" id="up" accept="image/jpeg, image/png" required>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary" name="upload" type="submit" style="float: right">Add</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -244,6 +194,7 @@ if (!isset($_SESSION['Admin'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0-rc.1/Chart.bundle.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -251,6 +202,12 @@ if (!isset($_SESSION['Admin'])) {
                 url: 'assets/ajax/get_total_users.php',
                 success: function (data) {
                     $("#totalUsers").html(data);
+                }
+            })
+            $.ajax({
+                url: 'assets/ajax/get_total_sales.php',
+                success: function (data) {
+                    $("#totalSales").html(data);
                 }
             })
             $.ajax({
@@ -263,6 +220,65 @@ if (!isset($_SESSION['Admin'])) {
                 }
             })
         });
+        var ctx = document.getElementById("mychart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                lineColor: "red",
+                labels: [<?php echo $data1; ?>],
+                datasets: [{
+                    label: 'Date',
+                    data: [<?php echo $data1; ?>],
+                    borderColor: 'rgba(255,99,132)',
+                    borderWidth: 3
+                },
+
+                {
+                    label: 'Sales',
+                    data: [<?php echo $data2; ?>,],
+                    borderColor: 'rgba(125,0,0)',
+                    borderWidth: 3
+                }
+                ]
+            },
+            animation: {
+                animateScale: true
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    display: true
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) {
+                                if (Number.isInteger(value)) {
+                                    return value;
+                                }
+                            },
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        });
+        function logout() {
+            Swal.fire({
+                title: 'CONFIRMATION',
+                text: "Are you sure you want to logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'assets/php/admin_logout.php';
+                }
+            })
+        };
     </script>
 </body>
 

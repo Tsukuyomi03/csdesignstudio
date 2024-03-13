@@ -64,7 +64,7 @@ if (!isset($_SESSION['User'])) {
     </div>
     <header id="header" class="header fixed-top d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="user_index.php" class="logo d-flex align-items-center me-auto me-lg-0">
                 <h1>CS <span style="color:gray">Design Studio</span></h1>
             </a>
             <nav id="navbar" class="navbar">
@@ -181,7 +181,8 @@ if (!isset($_SESSION['User'])) {
                                                 </button>
                                             </td>
                                             <td>
-                                                <button class="btn btn-outline-success" type="button">
+                                                <button class="btn btn-outline-success" type="button"
+                                                    onclick="buyNow();">
                                                     <i class="bi-cart-fill me-1"></i>
                                                     Buy Now
                                                 </button>
@@ -283,6 +284,28 @@ if (!isset($_SESSION['User'])) {
                             text: 'Added to Cart',
                         })
                         loadCart();
+                    }
+                    else if (dataResult.statusCode == 201) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Failed',
+                        })
+                    }
+                }
+            });
+        }
+        function buyNow() {
+            $.ajax({
+                type: "POST",
+                url: "assets/php/user_buyNow.php",
+                data: {
+                    id: $("#patc").val(),
+                    qty: $("#qty").val(),
+                },
+                success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        window.location = "user_orders.php";
                     }
                     else if (dataResult.statusCode == 201) {
                         Swal.fire({

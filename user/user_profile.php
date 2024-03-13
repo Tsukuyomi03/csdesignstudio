@@ -11,14 +11,15 @@ if (!isset($_SESSION['User'])) {
     $result = $db->query($sql);
     $user_row = $result->fetch_assoc();
     if (isset($_POST["update"])) {
-        $name = $_POST["name"];
-        $sname = $_POST["surname"];
-        $contact = $_POST["contact"];
-        $email = $_POST["email"];
-        $street = $_POST["street"];
-        $brgy = $_POST["brgy"];
-        $city = $_POST["city"];
-        $province = $_POST["province"];
+        $name = strtoupper($db->real_escape_string($_POST["name"]));
+        $sname = strtoupper($db->real_escape_string($_POST["surname"]));
+        $contact = $db->real_escape_string($_POST["contact"]);
+        $email = $db->real_escape_string($_POST["email"]);
+        $pword = $db->real_escape_string($_POST["pword"]);
+        $street = strtoupper($db->real_escape_string($_POST["street"]));
+        $brgy = strtoupper($db->real_escape_string($_POST["brgy"]));
+        $city = strtoupper($db->real_escape_string($_POST["city"]));
+        $province = strtoupper($db->real_escape_string($_POST["province"]));
 
         $sql2 = "UPDATE `tbl_users` SET `Name`='$name',`Last_Name`='$sname',`Contact`='$contact',`Email`='$email',`Street`='$street',`Brgy`='$brgy',`City`='$city',`Province`='$province' WHERE `Username`='$user'";
         $result2 = $db->query($sql2);
@@ -72,6 +73,7 @@ if (!isset($_SESSION['User'])) {
 
     .btn {
         border: 1px solid gray;
+        text-align: left;
     }
 </style>
 
@@ -97,7 +99,7 @@ if (!isset($_SESSION['User'])) {
     </div>
     <header id="header" class="header fixed-top d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="user_index.php" class="logo d-flex align-items-center me-auto me-lg-0">
                 <h1>CS <span style="color:gray">Design Studio</span></h1>
             </a>
             <nav id="navbar" class="navbar">
@@ -145,12 +147,15 @@ if (!isset($_SESSION['User'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2">
+                        <a href="user_orders.php"><button class="btn form-control"><i class="bi-box"
+                                    style="font-size:20px;">
+                                </i> Orders</button></a>
                         <a href="user_profile.php"><button class="btn btn-primary form-control"><i class="bi-person"
                                     style="font-size:20px;">
-                                </i> Profile</button></button></a>
+                                </i> Profile</button></a>
                         <a href="user_settings.php"><button class="btn form-control"><i class="bi-gear"
                                     style="font-size:20px;">
-                                </i> Settings</button></button></a>
+                                </i> Settings</button></a>
                     </div>
                     <div class="col-lg-10">
                         <div class="container">
