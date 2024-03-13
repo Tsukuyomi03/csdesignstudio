@@ -198,7 +198,7 @@ if (!isset($_SESSION['User'])) {
     </div>
 
 
-    <footer id="footer" class="footer fixed-bottom">
+    <footer id="footer" class="footer">
         <div class="container">
             <div class="row gy-3">
                 <div class="col-lg-3 col-md-6 d-flex">

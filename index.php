@@ -253,7 +253,7 @@ if (isset($_SESSION['User'])) {
                         </div>
                     </div>
                 </div>
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form p-3 p-md-4">
+                <form action="assets/php/inquire.php" method="post" role="form" class="php-email-form p-3 p-md-4">
                     <div class="row">
                         <div class="col-xl-6 form-group">
                             <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
@@ -271,11 +271,6 @@ if (isset($_SESSION['User'])) {
                     <div class="form-group">
                         <textarea class="form-control" name="message" rows="5" placeholder="Message"
                             required></textarea>
-                    </div>
-                    <div class="my-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
                     </div>
                     <div class="text-center"><button type="submit" style="background-color:black;">Send Message</button>
                     </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2024 at 02:28 PM
+-- Generation Time: Mar 13, 2024 at 06:11 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -120,6 +120,25 @@ INSERT INTO `tbl_products` (`ID`, `P_Name`, `P_Description`, `P_Type`, `P_Price`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_type`
+--
+
+CREATE TABLE `tbl_type` (
+  `ID` int(11) NOT NULL,
+  `Type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_type`
+--
+
+INSERT INTO `tbl_type` (`ID`, `Type`) VALUES
+(4, 'Sofa'),
+(6, 'Chair');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_users`
 --
 
@@ -173,6 +192,12 @@ ALTER TABLE `tbl_products`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `tbl_type`
+--
+ALTER TABLE `tbl_type`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -205,6 +230,12 @@ ALTER TABLE `tbl_orders`
 --
 ALTER TABLE `tbl_products`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_type`
+--
+ALTER TABLE `tbl_type`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

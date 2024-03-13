@@ -71,7 +71,7 @@ if (!isset($_SESSION['Admin'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_settings.php">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-cog"></i>
                     <span>Settings</span></a>
             </li>
             <hr class="sidebar-divider d-none d-md-block">
@@ -202,9 +202,15 @@ if (!isset($_SESSION['Admin'])) {
                                 <h6>Product Type</h6>
                                 <select name="ptype" required id="ptype" class="form-control">
                                     <option value="" hidden>Select Type</option>
-                                    <option value="Sofa">Sofa</option>
-                                    <option value="Chair">Chair</option>
-                                    <option value="Tables">Tables</option>
+                                    <?php
+                                    $sql = "SELECT * FROM tbl_type";
+                                    $result = $db->query($sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                        <option value="<?php echo $row['Type'] ?>">
+                                            <?php echo $row['Type'] ?>
+                                        </option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">

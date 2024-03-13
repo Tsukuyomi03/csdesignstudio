@@ -71,7 +71,7 @@ if (!isset($_SESSION['Admin'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_settings.php">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-cog"></i>
                     <span>Settings</span></a>
             </li>
             <hr class="sidebar-divider d-none d-md-block">
