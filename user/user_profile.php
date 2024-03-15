@@ -1,8 +1,8 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
 
-if (!isset($_SESSION['User'])) {
+if (!isset ($_SESSION['User'])) {
     header("Location: " . $folder . "login_user.php");
     exit();
 } else {
@@ -10,18 +10,14 @@ if (!isset($_SESSION['User'])) {
     $sql = "SELECT * FROM `tbl_users` WHERE Username = '$user' LIMIT 1";
     $result = $db->query($sql);
     $user_row = $result->fetch_assoc();
-    if (isset($_POST["update"])) {
+    if (isset ($_POST["update_profile"])) {
         $name = strtoupper($db->real_escape_string($_POST["name"]));
         $sname = strtoupper($db->real_escape_string($_POST["surname"]));
         $contact = $db->real_escape_string($_POST["contact"]);
         $email = $db->real_escape_string($_POST["email"]);
         $pword = $db->real_escape_string($_POST["pword"]);
-        $street = strtoupper($db->real_escape_string($_POST["street"]));
-        $brgy = strtoupper($db->real_escape_string($_POST["brgy"]));
-        $city = strtoupper($db->real_escape_string($_POST["city"]));
-        $province = strtoupper($db->real_escape_string($_POST["province"]));
 
-        $sql2 = "UPDATE `tbl_users` SET `Name`='$name',`Last_Name`='$sname',`Contact`='$contact',`Email`='$email',`Street`='$street',`Brgy`='$brgy',`City`='$city',`Province`='$province' WHERE `Username`='$user'";
+        $sql2 = "UPDATE `tbl_users` SET `Name`='$name',`Last_Name`='$sname',`Contact`='$contact',`Email`='$email' WHERE `Username`='$user'";
         $result2 = $db->query($sql2);
         if ($result2) {
             $_SESSION['status'] = "success";
@@ -79,14 +75,14 @@ if (!isset($_SESSION['User'])) {
 
 <body>
     <div>
-        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+        <?php if (isset ($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
                 Swal.fire({
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
                 Swal.fire({
                     icon: 'error',
@@ -159,9 +155,9 @@ if (!isset($_SESSION['User'])) {
                     </div>
                     <div class="col-lg-10">
                         <div class="container">
-                            <form method="post" action="">
-                                <div class="row">
-                                    <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <form method="post" action="">
                                         <h6>Personal Information</h6>
                                         <div class="input-group mb-2">
                                             <div class="input-group-prepend">
@@ -193,43 +189,55 @@ if (!isset($_SESSION['User'])) {
                                             <input type="email" class="form-control" required name="email"
                                                 value="<?php echo $user_row['Email'] ?>">
                                         </div>
-                                    </div>
-                                    <div class="col-6">
+                                        <button type="submit" name="update_profile" class="btn btn-outline-dark">UPDATE
+                                            PROFILE</button>
+                                    </form>
+                                </div>
+                                <div class="col-6">
+                                    <form method="post" action="assets/php/update_address.php">
                                         <h6>Address</h6>
                                         <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input style="text-transform: uppercase" type="text" class="form-control"
-                                                required name="street" value="<?php echo $user_row['Street'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input type="text" style="text-transform: uppercase" class="form-control"
-                                                required name="brgy" value="<?php echo $user_row['Brgy'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control" style="text-transform: uppercase"
-                                                required name="city" value="<?php echo $user_row['City'] ?>">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                            </div>
-                                            <input type="text" class="form-control" style="text-transform: uppercase"
-                                                required name="province" value="<?php echo $user_row['Province'] ?>">
-                                        </div>
-                                    </div>
+                                            <select name="region_text" class="form-control form-control-md" id="region"
+                                                required>
 
+                                            </select>
+                                            <input type="hidden" class="form-control form-control-md" name="region_text"
+                                                id="region-text" required>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <select name="province_text" class="form-control form-control-md"
+                                                id="province" required>
+
+                                            </select>
+                                            <input type="hidden" class="form-control form-control-md"
+                                                name="province_text" id="province-text" required>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <select name="city_text" class="form-control form-control-md" id="city"
+                                                required>
+
+                                            </select>
+                                            <input type="hidden" class="form-control form-control-md" name="city_text"
+                                                id="city-text" required>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <select name="barangay_text" class="form-control form-control-md"
+                                                id="barangay" required>
+
+                                            </select>
+                                            <input type="hidden" class="form-control form-control-md" name="brgy_text"
+                                                id="barangay-text" required>
+                                        </div>
+                                        <div class="input-group mb-2">
+
+                                            <input type="text" class="form-control form-control-md" name="street_text"
+                                                id="street-text" placeholder="Street (Optional)">
+                                        </div>
+                                        <button type="submit" name="update_address" class="btn btn-outline-dark">UPDATE
+                                            ADDRESS</button>
+                                    </form>
                                 </div>
-                                <button type="submit" name="update" style="float:right;"
-                                    class="btn btn-outline-dark">UPDATE</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -249,7 +257,7 @@ if (!isset($_SESSION['User'])) {
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
-
+    <script src="assets/js/ph-address-selector.js"></script>
     <script>
         $(document).ready(function () {
             $.ajax({

@@ -1,337 +1,183 @@
-<?php
-include("assets/php/config.php");
-session_start();
-
-if (isset($_SESSION['User'])) {
-    header("Location: " . $folder . "user/user_index.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>CS DESIGN STUDIO</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <link href="assets/img/logo.jpg" rel="icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://vineethtr.000webhostapp.com/wp-content/uploads/2018/01/logo.png" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed"
+        href="https://vineethtr.000webhostapp.com/wp-content/uploads/2018/01/logo.png" />
+    <meta name="msapplication-TileImage"
+        content="https://vineethtr.000webhostapp.com/wp-content/uploads/2018/01/logo.png" />
+    <title>CS DESGIN STUDIO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
+    <style media="screen">
+        .vertical.carousel .carousel-control {
+            bottom: auto;
+            width: 100%;
+            height: 15%;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0)));
+            background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0) 100%);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .vertical.carousel .carousel-control.right {
+            top: auto;
+            bottom: 0;
+            background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.5)));
+            background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        .vertical.carousel .carousel-control .glyphicon {
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+
+        .vertical.carousel .carousel-indicators {
+            bottom: auto;
+            top: 50%;
+            left: auto;
+            right: 10px;
+            width: 14px;
+            margin: 0;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .vertical.carousel .carousel-inner>.item {
+            left: 0;
+            top: 0;
+        }
+
+        .vertical.carousel .carousel-inner>.item>img {
+            width: 100%;
+        }
+
+        .vertical.carousel .carousel-inner>.item.next,
+        .vertical.carousel .carousel-inner>.item.active.right {
+            -webkit-transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0);
+            top: 0;
+        }
+
+        .vertical.carousel .carousel-inner>.item.prev,
+        .vertical.carousel .carousel-inner>.item.active.left {
+            -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+            top: 0;
+        }
+
+        .vertical.carousel .carousel-inner>.item.next.left,
+        .vertical.carousel .carousel-inner>.item.prev.right,
+        .vertical.carousel .carousel-inner>.item.active {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            top: 0;
+        }
+
+        .vertical.carousel .carousel-inner>.active,
+        .vertical.carousel .carousel-inner>.next.left,
+        .vertical.carousel .carousel-inner .prev.right {
+            top: 0;
+        }
+
+        .vertical.carousel .carousel-inner>.next,
+        .vertical.carousel .carousel-inner>.active.right {
+            top: 100%;
+            left: 0;
+        }
+
+        .vertical.carousel .carousel-inner>.prev,
+        .vertical.carousel .carousel-inner>.active.left {
+            top: -100%;
+            left: 0;
+        }
+
+        // * Not required only for infobox *//
+        .s {
+            color: #d44950
+        }
+
+        /* Literal.String */
+        .na {
+            color: #4f9fcf
+        }
+
+        /* Name.Attribute */
+        .nt {
+            color: #2f6f9f;
+        }
+
+        /* Name.Tag */
+    </style>
 </head>
-<style>
-    .menu-img {
-        width: 100%;
-        height: 100%;
-    }
 </style>
 
-<body>
+<body style="overflow-y:hidden;">
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="index_about.php" class="logo d-flex align-items-center me-auto me-lg-0">
                 <h1>CS <span style="color:gray">Design Studio</span></h1>
             </a>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a href="#hero">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="login_user.php">Login</a></li>
-                </ul>
-            </nav>
-            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
         </div>
     </header>
-    <section id="hero" class="hero d-flex align-items-center section-bg">
-        <div class="container">
-            <div class="row justify-content-between gy-5">
-                <div
-                    class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center align-items-lg-start text-center text-lg-start">
-                    <h2>CS <span style="color:gray;">Design Studio</span> </h2>
-                    <p>is a interior and exterior designer company it offers design and build for the customer
-                        convinience.</p>
-                    <div class="d-flex">
-                    </div>
-                </div>
-                <div class="col-lg-5 order-1 order-lg-2 text-center text-lg-start">
-                    <img src="assets/img/modular_kitchen.jpg" class="img-fluid" alt="" data-aos="zoom-out"
-                        data-aos-delay="300">
-                </div>
-            </div>
-        </div>
-    </section>
     <main id="main">
-        <section id="about" class="why-us section-bg">
-            <div class="container">
-                <div class="row gy-4">
-                    <div class="col-lg-4">
-                        <div class="why-box">
-                            <h3>Why Choose CS Design Studio</h3>
-                            <p>
-                                Our mission is to create a space of beauty, functionality, and comfort that perfectly
-                                matches your personality and your business or family's needs. We achieve this by
-                                considering every facet of your life – including your daily rituals, profession, hobbies
-                                and of course design tastes. CS Design Studio aim to translate the client's ideas and
-                                the professional holistic vision in a renovated space combining aesthetics, comfort and
-                                practicality.
-                            </p>
-                        </div>
+        <div class="vertical carousel slide" id="carousel-example-generic" data-ride="carousel" style="width:100%">
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img alt="First slide [900x500]" src="assets/img/modular_kitchen.jpg" data-holder-rendered="true"
+                        class="carousel-images" style="width:100%; height: 1000px;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>INTERIOR DESIGNS</h1>
+                        <br>
+                        <br>
+                        <p>...</p>
                     </div>
-                    <div class="col-lg-8 d-flex align-items-center">
-                        <div class="row gy-4">
-
-                            <div class="col-xl-4">
-                                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                    <i class="bi bi-clipboard-data"></i>
-                                    <h4>Interior Designs</h4>
-                                    <p> improve the effectiveness, accessibility, functionality and aesthetic appeal of
-                                        an environment in a way that ensures the safe and optimal occupation and use of
-                                        the interior space</p>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4">
-                                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                    <i class="bi bi-gem"></i>
-                                    <h4>Furnitures</h4>
-                                    <p>structurally sound, solid and well-built to ensure its prolonged use over the
-                                        years. You should feel safe when sitting in, or leaning on the piece, and you
-                                        shouldn't be able to recognize any sway, give or flex in it</p>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4">
-                                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                    <i class="bi bi-inboxes"></i>
-                                    <h4>Printing Services</h4>
-                                    <p>large and small print runs, finishing services such as folding, trimming and
-                                        bindery, large format printing of posters and banners, and much more</p>
-                                </div>
-                            </div>
-
-                        </div>
+                </div>
+                <div class="item">
+                    <img alt="Second slide [900x500]" src="assets/img/carousel1.jpg" data-holder-rendered="true"
+                        style="width:100%; height: 1000px;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>EXTERIOR DESIGNS</h1>
+                        <br>
+                        <br>
+                        <p>...</p>
                     </div>
-
                 </div>
-
-            </div>
-        </section>
-        <section id="projects" class="menu">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Our Projects</h2>
-                    <p>Check Our <span>Recent Projects</span></p>
-                </div>
-                <ul class="nav nav-tabs d-flex justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-paete">
-                            <h4>Paete</h4>
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade active show" id="menu-paete">
-                        <div class="tab-header text-center">
-                            <h3>Paete Laguna</h3>
-                        </div>
-                        <div class="row gy-5">
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/1.jpg" class="glightbox"><img src="assets/img/paete/1.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/2.jpg" class="glightbox"><img src="assets/img/paete/2.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/3.jpg" class="glightbox"><img src="assets/img/paete/3.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/4.jpg" class="glightbox"><img src="assets/img/paete/4.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/5.jpg" class="glightbox"><img src="assets/img/paete/5.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/6.jpg" class="glightbox"><img src="assets/img/paete/6.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/7.jpg" class="glightbox"><img src="assets/img/paete/7.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/8.jpg" class="glightbox"><img src="assets/img/paete/8.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                            <div class="col-lg-4 menu-item">
-                                <a href="assets/img/paete/9.jpg" class="glightbox"><img src="assets/img/paete/9.jpg"
-                                        class="menu-img img-fluid" alt=""></a>
-                            </div>
-                        </div>
+                <div class="item">
+                    <img alt="Third slide [900x500]" src="assets/img/carousel2.jpg" data-holder-rendered="true"
+                        style="width:100%; height: 1000px;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>WE OFFER FREE ESTIMATE</h1>
+                        <br>
+                        <br>
+                        <p>...</p>
                     </div>
                 </div>
             </div>
-        </section>
-        <section id="contact" class="contact">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Contact</h2>
-                    <p>Need Help? <span style="color:gray;">Contact Us</span></p>
-                </div>
-                <div>
-                    <div style="max-width:100%;overflow:hidden;color:red;width:100%;height:500px;">
-                        <div id="canvas-for-googlemap" style="height:100%; width:100%;max-width:100%;"><iframe
-                                style="height:100%;width:100%;border:0;" frameborder="0"
-                                src="https://www.google.com/maps/embed/v1/place?q=14.27180718647457,+121.42470728378021&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe>
-                        </div><a class="code-for-google-map" href="https://www.bootstrapskins.com/themes"
-                            id="authorize-map-data"></a>
-                        <style>
-                            #canvas-for-googlemap img {
-                                max-width: none !important;
-                                background: none !important;
-                                font-size: inherit;
-                                font-weight: inherit;
-                            }
-                        </style>
-                    </div>
-                </div>
-                <br>
-                <div class="row gy-4">
-                    <div class="col-md-6">
-                        <div class="info-item  d-flex align-items-center">
-                            <i class="icon bi bi-map flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Our Address</h3>
-                                <p>Pagsawitan, Santa Cruz, Laguna</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-item d-flex align-items-center">
-                            <i class="icon bi bi-envelope flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Email Us</h3>
-                                <p>tjrc_11@yahoo.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-item  d-flex align-items-center">
-                            <i class="icon bi bi-telephone flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Call Us</h3>
-                                <p>(+63) 956 068 8086</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-item  d-flex align-items-center">
-                            <i class="icon bi bi-share flex-shrink-0" style="background-color:black;"></i>
-                            <div>
-                                <h3>Opening Hours</h3>
-                                <div>
-                                    <span style="color:green">Always Open</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form action="assets/php/inquire.php" method="post" role="form" class="php-email-form p-3 p-md-4">
-                    <div class="row">
-                        <div class="col-xl-6 form-group">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                required>
-                        </div>
-                        <div class="col-xl-6 form-group">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
-                                required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message"
-                            required></textarea>
-                    </div>
-                    <div class="text-center"><button type="submit" style="background-color:black;">Send Message</button>
-                    </div>
-                </form>
-
-            </div>
-        </section>
-
-    </main>
-    <footer id="footer" class="footer">
-        <div class="container">
-            <div class="row gy-3">
-                <div class="col-lg-3 col-md-6 d-flex">
-                    <i class="bi bi-geo-alt icon"></i>
-                    <div>
-                        <h4>Address</h4>
-                        <p>
-                            Brgy. Pagsawitan <br>
-                            Santa Cruz Laguna<br>
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links d-flex">
-                    <i class="bi bi-telephone icon"></i>
-                    <div>
-                        <h4>For Estimate/Canvas</h4>
-                        <p>
-                            <strong>Phone:</strong> (+63) 956 068 8086 <br>
-                            <strong>Email:</strong> tjrc_11@yahoo.com<br>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links d-flex">
-                    <i class="bi bi-clock icon"></i>
-                    <div>
-                        <h4>Opening Hours</h4>
-                        <p>
-                            <span style="color:green">Always Open</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Follow Us</h4>
-                    <div class="social-links d-flex">
-                        <a href="https://www.facebook.com/CALLADOSUNGA.DESIGNSTUDIO" target="_blank" class="facebook"><i
-                                class="bi bi-facebook"></i></a>
-                    </div>
-                </div>
-
-            </div>
+            <a href="#carousel-example-generic" class="left carousel-control" role="button" data-slide="prev"> <span
+                    class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span
+                    class="sr-only">Previous</span>
+            </a>
+            <a href="#carousel-example-generic" class="right carousel-control" role="button" data-slide="next"> <span
+                    class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span
+                    class="sr-only">Next</span> </a>
         </div>
-    </footer>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    </main>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

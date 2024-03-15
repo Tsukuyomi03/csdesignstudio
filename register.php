@@ -1,5 +1,5 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
 ?>
 <!DOCTYPE html>
@@ -26,6 +26,7 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 
 </head>
 <style>
@@ -33,25 +34,29 @@ session_start();
         width: 100%;
         height: 100%;
     }
+
+    .toggle-password {
+        cursor: pointer;
+    }
 </style>
 
 <body>
     <div>
-        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+        <?php if (isset ($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
                 Swal.fire({
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
                 Swal.fire({
                     icon: 'error',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'download'): ?>
+        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'download'): ?>
             <script>
                 Swal.fire({
                     title: 'Congrats',
@@ -107,7 +112,8 @@ session_start();
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="bi-telephone"></i></div>
                                 </div>
-                                <input type="tel" class="form-control" placeholder="Contact No" required name="contact">
+                                <input type="num" class="form-control" placeholder="Contact No" required name="contact"
+                                    pattern="^(09|\+639)\d{9}$">
                             </div>
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
@@ -117,32 +123,37 @@ session_start();
                             </div>
                             <h6>Address</h6>
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                </div>
-                                <input style="text-transform: uppercase" type="text" class="form-control"
-                                    placeholder="House No. / Street / Subdivision" required name="street">
+                                <select name="region" class="form-control form-control-md" id="region">
+
+                                </select>
+                                <input type="hidden" class="form-control form-control-md" name="region_text"
+                                    id="region-text" required>
                             </div>
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                </div>
-                                <input type="text" style="text-transform: uppercase" class="form-control"
-                                    placeholder="Barangay" required name="brgy">
+                                <select name="province" class="form-control form-control-md" id="province">
+
+                                </select>
+                                <input type="hidden" class="form-control form-control-md" name="province_text"
+                                    id="province-text" required>
                             </div>
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                </div>
-                                <input type="text" class="form-control" style="text-transform: uppercase"
-                                    placeholder="City" required name="city">
+                                <select name="city" class="form-control form-control-md" id="city">
+
+                                </select>
+                                <input type="hidden" class="form-control form-control-md" name="city_text"
+                                    id="city-text" required>
                             </div>
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="bi bi-geo-alt icon"></i></div>
-                                </div>
-                                <input type="text" class="form-control" style="text-transform: uppercase"
-                                    placeholder="Province" required name="province">
+                                <select name="barangay" class="form-control form-control-md" id="barangay">
+
+                                </select>
+                                <input type="hidden" class="form-control form-control-md" name="brgy_text"
+                                    id="barangay-text" required>
+                            </div>
+                            <div class="input-group mb-2">
+
+                                <input type="text" class="form-control form-control-md" name="street_text"
+                                    id="street-text" placeholder="Street (Optional)">
                             </div>
                         </div>
                         <div class="col-6">
@@ -159,6 +170,11 @@ session_start();
                                 </div>
                                 <input type="Password" class="form-control" placeholder="Password" id="pword1" required
                                     name="pword">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                            id="toggle-password" onclick="showPassword();"></i></span>
+                                </div>
+
                             </div>
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
@@ -166,16 +182,12 @@ session_start();
                                 </div>
                                 <input type="password" class="form-control" placeholder="Re-Enter Password" id="pword2"
                                     onkeyup='passConfirm();' required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                            onclick="showPassword2();"></i></span>
+                                </div>
                             </div>
-
-
-                            <div class="input-group mb-2">
-                                <input id="show" type="checkbox" onclick="showPass()">&nbsp;Show Password
-                            </div>
-
-
                         </div>
-
                     </div>
                     <button type="submit" id="submit" style="float:right;"
                         class="btn btn-outline-dark">Register</button>
@@ -185,21 +197,22 @@ session_start();
             </div>
         </section>
     </main>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/ph-address-selector.js"></script>
+
     <script>
-        function showPass() {
-            var x = document.getElementById("pword1");
+        function showPassword2() {
+            $('#toggle-password2').toggleClass("bi-eye-fill bi-eye-slash-fill");
             var y = document.getElementById("pword2");
-            if (x.type === "password") {
-                x.type = "text";
+            if (y.type === "password") {
                 y.type = "text";
             } else {
-                x.type = "password";
                 y.type = "password";
             }
         }
@@ -214,6 +227,16 @@ session_start();
                 document.getElementById('submit').disabled = true;
             }
         }
+        function showPassword() {
+            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
+            var x = document.getElementById("pword1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
     </script>
 </body>
 

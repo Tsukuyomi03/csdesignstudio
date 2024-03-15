@@ -10,10 +10,11 @@ $contact = $db->real_escape_string($_POST["contact"]);
 $email = $db->real_escape_string($_POST["email"]);
 $uname = $db->real_escape_string($_POST["uname"]);
 $pword = $db->real_escape_string($_POST["pword"]);
-$street = strtoupper($db->real_escape_string($_POST["street"]));
-$brgy = strtoupper($db->real_escape_string($_POST["brgy"]));
-$city = strtoupper($db->real_escape_string($_POST["city"]));
-$province = strtoupper($db->real_escape_string($_POST["province"]));
+$street = strtoupper($db->real_escape_string($_POST["street_text"]));
+$brgy = strtoupper($db->real_escape_string($_POST["brgy_text"]));
+$city = strtoupper($db->real_escape_string($_POST["city_text"]));
+$province = strtoupper($db->real_escape_string($_POST["province_text"]));
+$region = strtoupper($db->real_escape_string($_POST["region_text"]));
 
 $sql1 = "SELECT * FROM tbl_users Where Username = '$uname' OR Email = '$email' LIMIT 1";
 $result = mysqli_query($db, $sql1);
@@ -25,8 +26,8 @@ if ($fetch) {
     header("Location: " . $folder . "register.php");
     exit();
 } else {
-    $sql2 = "INSERT INTO `tbl_users`(`Username`, `Password`, `Name`, `Last_Name`, `Contact`, `Email`,`Street`,`Brgy`,`City`,`Province`) 
-    VALUES ('$uname','$pword','$name','$surname','$contact','$email','$street','$brgy','$city','$province')";
+    $sql2 = "INSERT INTO `tbl_users`(`Username`, `Password`, `Name`, `Last_Name`, `Contact`, `Email`,`Street`,`Brgy`,`City`,`Province`,`Region`) 
+    VALUES ('$uname','$pword','$name','$surname','$contact','$email','$street','$brgy','$city','$province','$region')";
 
     $result2 = $db->query($sql2);
     if ($result2) {

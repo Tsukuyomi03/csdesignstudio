@@ -1,7 +1,7 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
-if (!isset($_SESSION['Admin'])) {
+if (!isset ($_SESSION['Admin'])) {
     header("Location: " . $folder . "login_admin.php");
     exit();
 } else {
@@ -30,14 +30,14 @@ if (!isset($_SESSION['Admin'])) {
 
 <body id="page-top">
     <div>
-        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+        <?php if (isset ($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
                 Swal.fire({
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
                 Swal.fire({
                     icon: 'error',
@@ -176,6 +176,7 @@ if (!isset($_SESSION['Admin'])) {
                                                         data-ubrgy="<?php echo $prow['Brgy'] ?>"
                                                         data-ucity="<?php echo $prow['City'] ?>"
                                                         data-uprovince="<?php echo $prow['Province'] ?>"
+                                                        data-region="<?php echo $prow['Region'] ?>"
                                                         data-oid="<?php echo $prow['Order_ID'] ?>"
                                                         data-rno="<?php echo $prow['Order_Payment_ReferenceNo'] ?>"
                                                         data-opt="<?php echo $prow['Order_Payment_Type'] ?>"
@@ -301,6 +302,7 @@ if (!isset($_SESSION['Admin'])) {
                                                             data-ubrgy="<?php echo $prow['Brgy'] ?>"
                                                             data-ucity="<?php echo $prow['City'] ?>"
                                                             data-uprovince="<?php echo $prow['Province'] ?>"
+                                                            data-uregion="<?php echo $prow['Region'] ?>"
                                                             data-oid="<?php echo $prow['Order_ID'] ?>"
                                                             data-rno="<?php echo $prow['Order_Payment_ReferenceNo'] ?>"
                                                             data-opt="<?php echo $prow['Order_Payment_Type'] ?>"
@@ -367,6 +369,7 @@ if (!isset($_SESSION['Admin'])) {
                                                         data-ubrgy="<?php echo $prow['Brgy'] ?>"
                                                         data-ucity="<?php echo $prow['City'] ?>"
                                                         data-uprovince="<?php echo $prow['Province'] ?>"
+                                                        data-uregion="<?php echo $prow['Region'] ?>"
                                                         data-oid="<?php echo $prow['Order_ID'] ?>"
                                                         data-rno="<?php echo $prow['Order_Payment_ReferenceNo'] ?>"
                                                         data-opt="<?php echo $prow['Order_Payment_Type'] ?>"
@@ -475,7 +478,7 @@ if (!isset($_SESSION['Admin'])) {
                                         </td>
                                         <td>
                                             <span id="ustreet"></span> <span id="ubrgy"></span> <span id="ucity"></span>
-                                            <span id="uprovince"></span>
+                                            <span id="uprovince"></span><span id="region"></span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -559,6 +562,7 @@ if (!isset($_SESSION['Admin'])) {
             var ubrgy = button.data('ubrgy')
             var ucity = button.data('ucity')
             var uprovince = button.data('uprovince')
+            var region = button.data('region');
             var oqty = button.data('oqty')
             var ototal = button.data('ototal')
 
@@ -579,6 +583,7 @@ if (!isset($_SESSION['Admin'])) {
             document.getElementById("ubrgy").innerHTML = ubrgy;
             document.getElementById("ucity").innerHTML = ucity;
             document.getElementById("uprovince").innerHTML = uprovince;
+            document.getElementById("region").innerHTML = region;
             document.getElementById("oqty").innerHTML = oqty;
             document.getElementById("ototal").innerHTML = ototal;
             modal.find('#oid').val(oid);

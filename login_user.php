@@ -1,7 +1,7 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
-if (isset($_SESSION['User'])) {
+if (isset ($_SESSION['User'])) {
     header('Location: user_index.php');
     exit();
 }
@@ -39,14 +39,14 @@ if (isset($_SESSION['User'])) {
 
 <body>
     <div>
-        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+        <?php if (isset ($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
                 Swal.fire({
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
                 Swal.fire({
                     icon: 'error',
@@ -95,11 +95,10 @@ if (isset($_SESSION['User'])) {
                                     </div>
                                     <input type="password" class="form-control" id="password" placeholder="Password"
                                         name="pword" required>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <div class="input-group mb-2">
-                                    <input id="show" type="checkbox" onclick="showPass()">&nbsp;Show Password
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                id="toggle-password" onclick="showPassword();"></i></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -109,11 +108,8 @@ if (isset($_SESSION['User'])) {
                             </div>
                             <div class="col-auto">
                                 <div class="row">
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-12">
                                         <a href="register.php"> Don't have an account yet? Sign Up now.</a>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <a href="#"> Forgot your password?</a>
                                     </div>
                                 </div>
                             </div>
@@ -123,13 +119,16 @@ if (isset($_SESSION['User'])) {
             </div>
         </section>
     </main>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-        function showPass() {
+        function showPassword() {
+            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
             var x = document.getElementById("password");
             if (x.type === "password") {
                 x.type = "text";

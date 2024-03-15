@@ -1,7 +1,7 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
-if (!isset($_SESSION['User'])) {
+if (!isset ($_SESSION['User'])) {
     header("Location: " . $folder . "login_user.php");
     exit();
 } else {
@@ -49,14 +49,14 @@ if (!isset($_SESSION['User'])) {
 
 <body>
     <div>
-        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+        <?php if (isset ($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
                 Swal.fire({
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
             </script>
-        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
                 Swal.fire({
                     icon: 'error',
@@ -138,6 +138,10 @@ if (!isset($_SESSION['User'])) {
                                         </div>
                                         <input id="opword" type="password" class="form-control" required name="opword"
                                             placeholder="Enter Old Password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                    id="toggle-password" onclick="showPassword();"></i></span>
+                                        </div>
                                     </div>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
@@ -145,6 +149,10 @@ if (!isset($_SESSION['User'])) {
                                         </div>
                                         <input id="npword" type="password" class="form-control" required name="npword"
                                             placeholder="Enter New Password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                    id="toggle-password" onclick="showPassword2();"></i></span>
+                                        </div>
                                     </div>
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
@@ -152,9 +160,10 @@ if (!isset($_SESSION['User'])) {
                                         </div>
                                         <input id="cnpword" type="password" class="form-control" required name="cnpword"
                                             placeholder="Re-Enter New Password" onkeyup='passConfirm();'>
-                                    </div>
-                                    <div class="input-group mb-2">
-                                        <input id="show" type="checkbox" onclick="showPass()">&nbsp;Show Password
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                    id="toggle-password" onclick="showPassword3();"></i></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -268,6 +277,33 @@ if (!isset($_SESSION['User'])) {
                 document.getElementById("npword").style.border = "2px solid red";
                 document.getElementById("cnpword").style.border = "2px solid red";
                 document.getElementById('updatePassword').disabled = true;
+            }
+        }
+        function showPassword() {
+            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
+            var x = document.getElementById("opword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        function showPassword2() {
+            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
+            var x = document.getElementById("npword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        function showPassword3() {
+            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
+            var x = document.getElementById("cnpword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
             }
         }
     </script>
