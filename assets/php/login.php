@@ -16,7 +16,7 @@ if ($result->num_rows > 0) {
 } else {
     $_SESSION['status'] = "error";
     $_SESSION['message'] = "Username / Password is invalid";
-    header("Location: " . $folder . "login_user.php");
+    header("Location: " . $folder . "index_login.php");
     exit();
 }
 ?>

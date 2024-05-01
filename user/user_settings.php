@@ -1,244 +1,258 @@
 <?php
 include ("assets/php/config.php");
 session_start();
-if (!isset ($_SESSION['User'])) {
-    header("Location: " . $folder . "login_user.php");
+
+if (!isset($_SESSION['User'])) {
+    header("Location: " . $folder . "index_login.php");
     exit();
 } else {
     $user = $_SESSION['User'];
     $sql = "SELECT * FROM `tbl_users` WHERE Username = '$user' LIMIT 1";
     $result = $db->query($sql);
     $user_row = $result->fetch_assoc();
+    if (isset($_POST["update_profile"])) {
+        $name = strtoupper($db->real_escape_string($_POST["name"]));
+        $sname = strtoupper($db->real_escape_string($_POST["surname"]));
+        $contact = $db->real_escape_string($_POST["contact"]);
+        $email = $db->real_escape_string($_POST["email"]);
+        $pword = $db->real_escape_string($_POST["pword"]);
+
+        $sql2 = "UPDATE `tbl_users` SET `Name`='$name',`Last_Name`='$sname',`Contact`='$contact',`Email`='$email' WHERE `Username`='$user'";
+        $result2 = $db->query($sql2);
+        if ($result2) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Update Successful";
+            header("Location: " . $folder . "user/user_profile.php");
+            exit();
+        } else {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Login Sucessful";
+            header("Location: " . $folder . "user/user_profile.php");
+            exit();
+        }
+    }
 }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>CS DESIGN STUDIO</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <link href="assets/img/logo.jpg" rel="icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="assets/css/main.css" rel="stylesheet">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
 </head>
 <style>
-    .menu-img {
-        width: 100%;
-        height: 100%;
+    body {
+        background-color: #191919;
+        color: white;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
     }
 
-    .btn {
-        border: 1px solid gray;
-        text-align: left;
+    .dropdown-menu {
+        background-color: black;
+    }
+
+    .dropdown-item {
+        color: white;
+    }
+
+    .nav-item {
+        font-size: 20px;
+        margin: 0 5px 5px 0
+    }
+
+    .dropdown-divider {
+        color: white !important;
+    }
+
+    .dropdown:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .dropdown>.dropdown-toggle:active {
+        pointer-events: none;
     }
 </style>
 
 <body>
     <div>
-        <?php if (isset ($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
+        <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
                 Swal.fire({
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
+
             </script>
-        <?php elseif (isset ($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
+        <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
                 Swal.fire({
                     icon: 'error',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
+
             </script>
         <?php endif; ?>
         <?php unset($_SESSION['message']); ?>
         <?php unset($_SESSION['status']); ?>
     </div>
-    <header id="header" class="header fixed-top d-flex align-items-center fixed-top">
-        <div class="container d-flex align-items-center justify-content-between">
-            <a href="user_index.php" class="logo d-flex align-items-center me-auto me-lg-0">
-                <h1>CS <span style="color:gray">Design Studio</span></h1>
-            </a>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a href="user_index.php"> Products</a></li>
-                    <li><a> </a></li>
-                    <div class="vr"></div>
-                    <li><a> </a></li>
-                    <a href="user_cart.php"><button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="tatc"></span>
-                        </button></a>
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
-                                class="mr-2 d-none d-lg-inline text-gray-600">
-                                <?php echo $user ?>
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                            aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="user_profile.php">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" onclick="logout();">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </li>
+    <nav class="navbar navbar-expand-lg bg-black" style="padding:40px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="assets/img/logo_long.jpg" style="width:10%;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
                 </ul>
-            </nav>
-            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+                <form class="d-flex" role="search">
+
+                </form>
+                <div class="navbar-nav my-2  my-lg-0 navbar-nav-scroll">
+
+                    <li></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="user_index.php"
+                            style="color:white; ">HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            ABOUT US
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="user_about.php">CS DESIGN STUDIO</a></li>
+                            <li><a class="dropdown-item" href="user_services.php">SERVICES</a></li>
+                            <li><a class="dropdown-item" href="user_portfolio.php">PORTFOLIO</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_shop.php" style="color:white;">SHOP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_contact.php" style="color:white;">CONTACT</a>
+                    </li>
+                    <li class="nav-item dropdown" style="border:2px solid white; border-radius :10px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            <i class="fa-solid fa-user">&nbsp;</i>
+                            <?php echo $user ?>
+                        </a>
+                        <ul class="dropdown-menu" style="border: 1px solid white;">
+                            <li><a class="dropdown-item" href="user_profile.php">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a></li>
+                            <li><a class="dropdown-item" href="user_cart.php">
+                                    <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cart
+                                </a></li>
+                            <li>
+                                <hr class="hr" style="color:white;">
+                            </li>
+                            <li><a class="dropdown-item" onclick="logout();">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a></li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
         </div>
-    </header>
-    <main id="main" style="overflow-x:hidden; overflow-y:scroll;">
-        <div class="row">
-            <br>
-        </div>
-        <section id="projects" class="menu">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2">
-                        <a href="user_orders.php"><button class="btn form-control"><i class="bi-box"
-                                    style="font-size:20px;">
-                                </i> Orders</button></button></a>
-                        <a href="user_profile.php"><button class="btn form-control"><i class="bi-person"
-                                    style="font-size:20px;">
-                                </i> Profile</button></a>
-                        <a href="user_settings.php"><button class="btn btn-primary form-control"><i class="bi-gear"
-                                    style="font-size:20px;">
-                                </i> Settings</button></a>
-                    </div>
-                    <div class="col-lg-10">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6>PASSWORD MANAGER</h6>
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="bi-lock"></i></div>
+    </nav>
+    <div class="container" style="margin-top:2%">
+        <main id="main">
+            <div class=" row">
+                <br>
+            </div>
+            <section id="projects" class="menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <a href="user_orders.php"><button class="btn form-control bg-light"><i class="bi-box"
+                                        style="font-size:20px;">
+                                    </i> Orders</button></button></a>
+                            <a href="user_profile.php"><button class="btn form-control bg-light"><i class="bi-person"
+                                        style="font-size:20px;">
+                                    </i> Profile</button></a>
+                            <a href="user_settings.php"><button class="btn btn-primary form-control"><i class="bi-gear"
+                                        style="font-size:20px;">
+                                    </i> Settings</button></a>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6>PASSWORD MANAGER</h6>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="bi-lock"></i></div>
+                                            </div>
+                                            <input id="opword" type="password" class="form-control" required
+                                                name="opword" placeholder="Enter Old Password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                        id="toggle-password" onclick="showPassword();"></i></span>
+                                            </div>
                                         </div>
-                                        <input id="opword" type="password" class="form-control" required name="opword"
-                                            placeholder="Enter Old Password">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="toggle-password bi-eye-fill"
-                                                    id="toggle-password" onclick="showPassword();"></i></span>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="bi-lock"></i></div>
+                                            </div>
+                                            <input id="npword" type="password" class="form-control" required
+                                                name="npword" placeholder="Enter New Password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                        id="toggle-password" onclick="showPassword2();"></i></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="bi-lock"></i></div>
-                                        </div>
-                                        <input id="npword" type="password" class="form-control" required name="npword"
-                                            placeholder="Enter New Password">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="toggle-password bi-eye-fill"
-                                                    id="toggle-password" onclick="showPassword2();"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="input-group mb-2">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="bi-lock"></i></div>
-                                        </div>
-                                        <input id="cnpword" type="password" class="form-control" required name="cnpword"
-                                            placeholder="Re-Enter New Password" onkeyup='passConfirm();'>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="toggle-password bi-eye-fill"
-                                                    id="toggle-password" onclick="showPassword3();"></i></span>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><i class="bi-lock"></i></div>
+                                            </div>
+                                            <input id="cnpword" type="password" class="form-control" required
+                                                name="cnpword" placeholder="Re-Enter New Password"
+                                                onkeyup='passConfirm();'>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="toggle-password bi-eye-fill"
+                                                        id="toggle-password" onclick="showPassword3();"></i></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <button style="float:left;" class="btn btn-light" id="updatePassword">UPDATE
+                                    PASSWORD</button>
                             </div>
-                            <button style="float:left;" class="btn btn-outline-dark" id="updatePassword">UPDATE
-                                PASSWORD</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="assets/js/ph-address-selector.js"></script>
     <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: 'assets/ajax/get_total_cart.php',
-                success: function (data) {
-                    document.getElementById("tatc").textContent = data;
-                }
-            });
-            $('#updatePassword').on('click', function () {
-                var opword = $('#opword').val();
-                var npword = $('#npword').val();
-                var cnpword = $('#cnpword').val();
-                $.ajax({
-                    url: "assets/ajax/user_updatePassword.php",
-                    type: "POST",
-                    data: {
-                        opword: opword,
-                        npword: npword,
-                        cnpword: cnpword,
-                    },
-                    cache: false,
-                    success: function (dataResult) {
-                        var dataResult = JSON.parse(dataResult);
-                        if (dataResult.statusCode == 200) {
-                            Swal.fire({
-                                icon: 'success',
-                                text: 'Password Updated Successfully',
-                            })
-                        }
-                        else if (dataResult.statusCode == 201) {
-                            Swal.fire({
-                                icon: 'error',
-                                text: 'Invalid Password',
-                            })
-                        }
-                        else if (dataResult.statusCode == 203) {
-                            Swal.fire({
-                                icon: 'error',
-                                text: 'Cant Use Old Password',
-                            })
-                        }
-                        else {
-                            Swal.fire({
-                                icon: 'error',
-                                text: 'Operation Failed',
-                            })
-                        }
-                    }
-                });
-            });
-        });
         function logout() {
             Swal.fire({
                 title: 'CONFIRMATION',
@@ -254,58 +268,72 @@ if (!isset ($_SESSION['User'])) {
                 }
             })
         };
-        function showPass() {
-            var x = document.getElementById("opword");
-            var y = document.getElementById("npword");
-            var z = document.getElementById("cnpword");
-            if (x.type === "password") {
-                x.type = "text";
-                y.type = "text";
-                z.type = "text";
-            } else {
-                x.type = "password";
-                y.type = "password";
-                z.type = "password";
-            }
+
+        function addToCart() {
+            $.ajax({
+                type: "POST",
+                url: "assets/ajax/user_addtocart.php?user=<?php echo $user ?>",
+                data: {
+                    id: $("#patc").val(),
+                    qty: $("#qty").val(),
+                },
+                success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Added to Cart',
+                        })
+                        loadCart();
+                    } else if (dataResult.statusCode == 201) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Failed',
+                        })
+                    }
+                }
+            });
         }
-        var passConfirm = function () {
-            if (document.getElementById("npword").value == document.getElementById("cnpword").value) {
-                document.getElementById("npword").style.border = "1px solid rgb(209, 211, 226)";
-                document.getElementById("cnpword").style.border = "1px solid rgb(209, 211, 226)";
-                document.getElementById('updatePassword').disabled = false;
-            } else {
-                document.getElementById("npword").style.border = "2px solid red";
-                document.getElementById("cnpword").style.border = "2px solid red";
-                document.getElementById('updatePassword').disabled = true;
-            }
+
+        function buyNow() {
+            $.ajax({
+                type: "POST",
+                url: "assets/php/user_buyNow.php",
+                data: {
+                    id: $("#patc").val(),
+                    qty: $("#qty").val(),
+                },
+                success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        window.location = "user_orders.php";
+                    } else if (dataResult.statusCode == 201) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'Failed',
+                        })
+                    }
+                }
+            });
         }
-        function showPassword() {
-            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
-            var x = document.getElementById("opword");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-        function showPassword2() {
-            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
-            var x = document.getElementById("npword");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-        function showPassword3() {
-            $('#toggle-password').toggleClass("bi-eye-fill bi-eye-slash-fill");
-            var x = document.getElementById("cnpword");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
+        $('#viewProducts').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var pid = button.data('pid')
+            var pname = button.data('pname')
+            var pdes = button.data('pdes')
+            var ptype = button.data('ptype')
+            var pprice = button.data('pprice')
+            var pimg = button.data('whatever')
+            var modal = $(this)
+
+            document.getElementById("pname").textContent = pname;
+            document.getElementById("pprice").textContent = "P " + pprice;
+            document.getElementById("pdes").textContent = pdes;
+            document.getElementById("productImage").src = pimg;
+            document.getElementById("patc").value = pid;
+
+        });
+
     </script>
 </body>
 

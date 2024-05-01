@@ -10,8 +10,10 @@ require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 
 
-$name = $_POST['name'];
+$fname = $_POST['fname'];
+$lname = $_POST['lname'];
 $email = $_POST['email'];
+$contact = $_POST['contact'];
 $subject = $_POST['subject'];
 $message = $_POST['message'];
 
@@ -28,23 +30,28 @@ $mail->Password = 'ykjm qmeg bibi hard';
 $mail->SMTPSecure = "ssl";
 $mail->Port = 465;
 
+$fullname = $fname . " " . $lname;
+
 //Recipients
-$mail->setFrom("$email", "$name");
-$mail->addAddress('mh.tokio@gmail.com', 'Gino Toralba');
+$mail->From = $email;
+$mail->FromName = $fullname;
+$mail->addAddress('ginotoralba0031@gmail.com', 'Gino Toralba');
 
 //Content
 $mail->isHTML(true);
 $mail->Subject = $subject;
-$mail->Body = $message;
+$mail->Body = '<h3 style="text-decoration:none">Email: ' . $email . '</h3>';
+$mail->Body .= "<h3>Contact: $contact </h3>";
+$mail->Body .= "<h2>$message</h2>";
 if ($mail->send()) {
     $_SESSION['status'] = "success";
-    $_SESSION['message'] = "Mail Sent Sucessfully";
-    header("Location: " . $folder . "index_about.php");
+    $_SESSION['message'] = "Successfully Sent";
+    header("Location: " . $folder . "index_contact.php");
     exit();
 } else {
     $_SESSION['status'] = "error";
     $_SESSION['message'] = "Somwthing Went Wrong";
-    header("Location: " . $folder . "index_about.php");
+    header("Location: " . $folder . "index_contact.php");
     exit();
 }
 ?>

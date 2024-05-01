@@ -1,11 +1,15 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
 if (!isset($_SESSION['Admin'])) {
     header("Location: " . $folder . "login_admin.php");
     exit();
 } else {
     $admin = $_SESSION['Admin'];
+
+    $sql = "SELECT * FROM `tbl_type`";
+    $result = $db->query($sql);
+    $getType = $result->fetch_assoc();
 }
 ?>
 <!DOCTYPE html>
@@ -260,11 +264,17 @@ if (!isset($_SESSION['Admin'])) {
                             <tr>
                                 <td>Type</td>
                                 <td>
-                                    <select name="ptype" required id="ptype" class="form-control">
-                                        <option value="" hidden>Select Type</option>
-                                        <option value="Sofa">Sofa</option>
-                                        <option value="Chair">Chair</option>
-                                        <option value="Tables">Tables</option>
+                                    <select name="ptype" required id="utype" class="form-control" value="">
+                                        <option value="" hidden>-- SELECT TYPE --</option>
+                                        <?php
+                                        $sql = "SELECT * FROM tbl_type";
+                                        $result = $db->query($sql);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            ?>
+                                            <option value="<?php echo $row['Type'] ?>">
+                                                <?php echo $row['Type'] ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                 </td>
                             </tr>
@@ -362,13 +372,11 @@ if (!isset($_SESSION['Admin'])) {
             var pid = button.data('pid')
             var pname = button.data('pname')
             var pdes = button.data('pdes')
-            var ptype = button.data('ptype')
             var pprice = button.data('pprice')
             var modal = $(this)
             modal.find('#pid').val(pid)
             modal.find('#pname').val(pname)
             modal.find('#pdes').val(pdes)
-            modal.find('#ptype').val(ptype)
             modal.find('#pprice').val(pprice)
         });
 

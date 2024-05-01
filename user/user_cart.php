@@ -1,48 +1,89 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
 
 if (!isset($_SESSION['User'])) {
-    header("Location: " . $folder . "login_user.php");
+    header("Location: " . $folder . "index_login.php");
     exit();
 } else {
     $user = $_SESSION['User'];
+    $sql = "SELECT * FROM `tbl_users` WHERE Username = '$user' LIMIT 1";
+    $result = $db->query($sql);
+    $user_row = $result->fetch_assoc();
+    if (isset($_POST["update_profile"])) {
+        $name = strtoupper($db->real_escape_string($_POST["name"]));
+        $sname = strtoupper($db->real_escape_string($_POST["surname"]));
+        $contact = $db->real_escape_string($_POST["contact"]);
+        $email = $db->real_escape_string($_POST["email"]);
+        $pword = $db->real_escape_string($_POST["pword"]);
+
+        $sql2 = "UPDATE `tbl_users` SET `Name`='$name',`Last_Name`='$sname',`Contact`='$contact',`Email`='$email' WHERE `Username`='$user'";
+        $result2 = $db->query($sql2);
+        if ($result2) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Update Successful";
+            header("Location: " . $folder . "user/user_profile.php");
+            exit();
+        } else {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Login Sucessful";
+            header("Location: " . $folder . "user/user_profile.php");
+            exit();
+        }
+    }
 }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>CS DESIGN STUDIO</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <link href="assets/img/logo.jpg" rel="icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="assets/css/main.css" rel="stylesheet">
-
-
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="assets/css/files.css">
 </head>
 <style>
-    .menu-img {
-        width: 100%;
-        height: 100%;
+    body {
+        background-color: #191919;
+        color: white;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
     }
 
-    .table td {
-        border: none;
+    .dropdown-menu {
+        background-color: black;
+    }
+
+    .dropdown-item {
+        color: white;
+    }
+
+    .nav-item {
+        font-size: 20px;
+        margin: 0 5px 5px 0
+    }
+
+    .dropdown-divider {
+        color: white !important;
+    }
+
+    .dropdown:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .dropdown>.dropdown-toggle:active {
+        /*Without this, clicking will make it sticky*/
+        pointer-events: none;
     }
 </style>
 
@@ -54,6 +95,7 @@ if (!isset($_SESSION['User'])) {
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
+
             </script>
         <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
@@ -61,184 +103,164 @@ if (!isset($_SESSION['User'])) {
                     icon: 'error',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
+
             </script>
         <?php endif; ?>
         <?php unset($_SESSION['message']); ?>
         <?php unset($_SESSION['status']); ?>
     </div>
-    <header id="header" class="header fixed-top d-flex align-items-center">
-        <div class="container d-flex align-items-center justify-content-between">
-            <a href="user_index.php" class="logo d-flex align-items-center me-auto me-lg-0">
-                <h1>CS <span style="color:gray">Design Studio</span></h1>
-            </a>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a href="user_index.php"> Products</a></li>
-                    <li><a> </a></li>
-                    <div class="vr"></div>
-                    <li><a> </a></li>
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="tatc"></span>
-                    </button>
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
-                                class="mr-2 d-none d-lg-inline text-gray-600">
-                                <?php echo $user ?>
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                            aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="user_profile.php">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" onclick="logout();">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </li>
+    <nav class="navbar navbar-expand-lg bg-black" style="padding:40px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="assets/img/logo_long.jpg" style="width:10%;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
                 </ul>
-            </nav>
-            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-        </div>
-    </header>
-    <main id="main" style="overflow-x:hidden; overflow-y:scroll;">
-        <div class="row">
-            <br>
-        </div>
-        <section id="projects" class="menu">
-            <div class="container">
-                <div class="row" overflow-y:scroll>
-                    <?php
-                    $sql = "SELECT * FROM tbl_products LEFT JOIN tbl_addtocart ON tbl_products.ID=tbl_addtocart.O_ID WHERE User='$user'";
-                    $result = $db->query($sql);
-                    while ($prow = mysqli_fetch_array($result)) {
-                        ?>
-                        <div class="card" style="width:100%;margin-bottom:1%;">
-                            <div class="card-body">
-                                <table class="table table-borderless">
-                                    <tr>
-                                        <td rowspan="4" style="width: 200px;backgroud-image:url('')"> <img
-                                                class="card-img-top"
-                                                src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <?php echo $prow['P_Name'] ?>
-                                        </td>
-                                        <td>Price</td>
-                                        <td style="word-wrap: break-word;width: 150px;text-align:right;"> P
-                                            <?php echo $prow['P_Price'] ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <?php echo $prow['P_Description'] ?>
-                                        </td>
-                                        <td style="word-wrap: break-word;width: 100px;">Qantity</td>
-                                        <td>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-outline-secondary minus" type="button"
-                                                        onclick="minusQTY(<?php echo $prow['Cart_ID'] ?>);">-</button>
-                                                </div>
-                                                <input type="text" class="form-control quantity" style="text-align:center;"
-                                                    value="<?php echo $prow['O_QTY'] ?>">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary add" type="button" id="AddCart"
-                                                        onclick="addQTY(<?php echo $prow['Cart_ID'] ?>);">+</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product Type:
-                                            <?php echo $prow['P_Type'] ?>
-                                        </td>
-                                        <td><button class="btn btn-danger form-control"
-                                                onclick="delete_cart(<?php echo $prow['Cart_ID'] ?>)">Remove</button></button>
-                                        </td>
-                                        <td><button class="btn btn-primary form-control"
-                                                onclick="buyNow(<?php echo $prow['ID'] ?>,<?php echo $prow['O_QTY'] ?>,<?php echo $prow['Cart_ID'] ?>);">Checkout</button></button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    <?php } ?>
+                <form class="d-flex" role="search">
+
+                </form>
+                <div class="navbar-nav my-2  my-lg-0 navbar-nav-scroll">
+
+                    <li></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="user_index.php"
+                            style="color:white; ">HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            ABOUT US
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="user_about.php">CS DESIGN STUDIO</a></li>
+                            <li><a class="dropdown-item" href="user_services.php">SERVICES</a></li>
+                            <li><a class="dropdown-item" href="user_portfolio.php">PORTFOLIO</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_shop.php" style="color:white;">SHOP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_contact.php" style="color:white;">CONTACT</a>
+                    </li>
+                    <li class="nav-item dropdown" style="border:2px solid white; border-radius :10px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            <i class="fa-solid fa-user">&nbsp;</i>
+                            <?php echo $user ?>
+                        </a>
+                        <ul class="dropdown-menu" style="border: 1px solid white;">
+                            <li><a class="dropdown-item" href="user_profile.php">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a></li>
+                            <li><a class="dropdown-item" href="user_cart.php">
+                                    <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cart
+                                </a></li>
+                            <li>
+                                <hr class="hr" style="color:white;">
+                            </li>
+                            <li><a class="dropdown-item" onclick="logout();">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a></li>
+                        </ul>
+                    </li>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer id="footer" class="footer fixed-bottom">
-        <div class="container">
-            <div class="row gy-3">
-                <div class="col-lg-3 col-md-6 d-flex">
-                    <i class="bi bi-geo-alt icon"></i>
-                    <div>
-                        <h4>Address</h4>
-                        <p>
-                            Brgy. Pagsawitan <br>
-                            Santa Cruz Laguna<br>
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links d-flex">
-                    <i class="bi bi-telephone icon"></i>
-                    <div>
-                        <h4>For Estimate/Canvas</h4>
-                        <p>
-                            <strong>Phone:</strong> (+63) 956 068 8086 <br>
-                            <strong>Email:</strong> tjrc_11@yahoo.com<br>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links d-flex">
-                    <i class="bi bi-clock icon"></i>
-                    <div>
-                        <h4>Opening Hours</h4>
-                        <p>
-                            <span style="color:green">Always Open</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Follow Us</h4>
-                    <div class="social-links d-flex">
-                        <a href="https://www.facebook.com/CALLADOSUNGA.DESIGNSTUDIO" target="_blank" class="facebook"><i
-                                class="bi bi-facebook"></i></a>
-                    </div>
-                </div>
-
-            </div>
         </div>
-    </footer>
+    </nav>
+    <div class="container" style="margin-top:2%">
+        <main id="main">
+            <div class="row">
+                <br>
+            </div>
+            <section id="projects" class="menu">
+                <div class="container">
+                    <div class="row" overflow-y:scroll>
+                        <?php
+                        $sql = "SELECT * FROM tbl_products LEFT JOIN tbl_addtocart ON tbl_products.ID=tbl_addtocart.O_ID WHERE User='$user'";
+                        $result = $db->query($sql);
+                        if ($result->num_rows > 0) {
+                            while ($prow = mysqli_fetch_array($result)) {
+                                ?>
+                                <div class="card" style="width:100%;margin-bottom:1%;">
+                                    <div class="card-body">
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td rowspan="4" style="width: 200px;backgroud-image:url('')"> <img
+                                                        class="card-img-top"
+                                                        src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $prow['P_Name'] ?>
+                                                </td>
+                                                <td>Price</td>
+                                                <td style="word-wrap: break-word;width: 150px;text-align:right;"> P
+                                                    <?php echo $prow['P_Price'] ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $prow['P_Description'] ?>
+                                                </td>
+                                                <td style="word-wrap: break-word;width: 100px;">Qantity</td>
+                                                <td>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-outline-secondary minus" type="button"
+                                                                onclick="minusQTY(<?php echo $prow['Cart_ID'] ?>);">-</button>
+                                                        </div>
+                                                        <input type="text" class="form-control quantity"
+                                                            style="text-align:center;" value="<?php echo $prow['O_QTY'] ?>">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-secondary add" type="button"
+                                                                id="AddCart"
+                                                                onclick="addQTY(<?php echo $prow['Cart_ID'] ?>);">+</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product Type:
+                                                    <?php echo $prow['P_Type'] ?>
+                                                </td>
+                                                <td><button class="btn btn-danger form-control"
+                                                        onclick="delete_cart(<?php echo $prow['Cart_ID'] ?>)">Remove</button></button>
+                                                </td>
+                                                <td><button class="btn btn-primary form-control"
+                                                        onclick="buyNow(<?php echo $prow['ID'] ?>,<?php echo $prow['O_QTY'] ?>,<?php echo $prow['Cart_ID'] ?>);">Checkout</button></button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            <?php }
+                        } else {
+                            echo '<h1 style="color:white;text-align:center;"> No item/s on your cart, go to shop and order some.</h1>';
+                        } ?>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/js/main.js"></script>
-
+    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="assets/js/ph-address-selector.js"></script>
     <script>
         $(document).ready(function () {
             $.ajax({
@@ -263,6 +285,7 @@ if (!isset($_SESSION['User'])) {
 
             });
         });
+
         function addQTY($___id) {
             var pid = $___id;
             $.ajax({
@@ -270,6 +293,7 @@ if (!isset($_SESSION['User'])) {
                 url: "assets/ajax/user_addQTY.php?user=<?php echo $user ?>&pid=" + pid,
             });
         }
+
         function minusQTY($___id) {
             var pid = $___id;
             $.ajax({
@@ -277,6 +301,7 @@ if (!isset($_SESSION['User'])) {
                 url: "assets/ajax/user_minusQTY.php?user=<?php echo $user ?>&pid=" + pid,
             });
         }
+
         function logout() {
             Swal.fire({
                 title: 'CONFIRMATION',
@@ -292,6 +317,7 @@ if (!isset($_SESSION['User'])) {
                 }
             })
         }
+
         function delete_cart($___id) {
             var pid = $___id;
             Swal.fire({
@@ -308,6 +334,7 @@ if (!isset($_SESSION['User'])) {
                 }
             })
         }
+
         function buyNow($___id, $___qty, $___cartID) {
             $.ajax({
                 type: "POST",
@@ -321,8 +348,7 @@ if (!isset($_SESSION['User'])) {
                     var dataResult = JSON.parse(dataResult);
                     if (dataResult.statusCode == 200) {
                         window.location = "user_orders.php";
-                    }
-                    else if (dataResult.statusCode == 201) {
+                    } else if (dataResult.statusCode == 201) {
                         Swal.fire({
                             icon: 'error',
                             text: 'Failed',
@@ -331,6 +357,7 @@ if (!isset($_SESSION['User'])) {
                 }
             });
         }
+
     </script>
 </body>
 

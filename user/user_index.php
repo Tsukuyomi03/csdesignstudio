@@ -1,48 +1,106 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
 
 if (!isset($_SESSION['User'])) {
-    header("Location: " . $folder . "login_user.php");
+    header("Location: " . $folder . "index_login.php");
     exit();
 } else {
     $user = $_SESSION['User'];
 }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>CS DESIGN STUDIO</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <link href="assets/img/logo.jpg" rel="icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="assets/css/main.css" rel="stylesheet">
-
-
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+
 </head>
 <style>
-    .menu-img {
+    body {
+        background-color: #191919;
+        color: white;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: <weight>;
+        font-style: normal;
+    }
+
+    .dropdown-menu {
+        background-color: black;
+    }
+
+    .dropdown-item {
+        color: white;
+    }
+
+    .nav-item {
+        font-size: 20px;
+        margin: 0 5px 5px 0
+    }
+
+    .dropdown-divider {
+        color: white !important;
+    }
+
+    .dropdown:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .dropdown>.dropdown-toggle:active {
+        /*Without this, clicking will make it sticky*/
+        pointer-events: none;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(8, 1fr));
+        grid-template-rows: repeat(auto-fit, minmax(8, 1fr));
+        grid-gap: 15px;
+    }
+
+    .gallery_img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
+    }
+
+    .gallery_item1 {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 7;
+    }
+
+    .gallery_item2 {
+        grid-column-start: 5;
+        grid-column-end: 9;
+        grid-row-start: 1;
+        grid-row-end: 4;
+    }
+
+    .gallery_item3 {
+        grid-column-start: 5;
+        grid-column-end: 9;
+        grid-row-start: 4;
+        grid-row-end: 7;
+    }
+
+    p {
+        text-align: justify;
+        font-size: 18px;
     }
 </style>
 
-<body onload="loadCart();   ">
+<body>
     <div>
         <?php if (isset($_SESSION["status"]) && $_SESSION['status'] == 'success'): ?>
             <script>
@@ -50,6 +108,7 @@ if (!isset($_SESSION['User'])) {
                     icon: 'success',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
+
             </script>
         <?php elseif (isset($_SESSION["status"]) && $_SESSION['status'] == 'error'): ?>
             <script>
@@ -57,282 +116,215 @@ if (!isset($_SESSION['User'])) {
                     icon: 'error',
                     text: '<?php echo $_SESSION['message'] ?>',
                 })
+
             </script>
         <?php endif; ?>
         <?php unset($_SESSION['message']); ?>
         <?php unset($_SESSION['status']); ?>
     </div>
-    <header id="header" class="header fixed-top d-flex align-items-center fixed-top">
-        <div class="container d-flex align-items-center justify-content-between">
-            <a href="user_index.php" class="logo d-flex align-items-center me-auto me-lg-0">
-                <h1>CS <span style="color:gray">Design Studio</span></h1>
-            </a>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a href="user_index.php"> Products</a></li>
-                    <li><a> </a></li>
-                    <div class="vr"></div>
-                    <li><a> </a></li>
-                    <a href="user_cart.php"><button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="tatc"></span>
-                        </button></a>
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
-                                class="mr-2 d-none d-lg-inline text-gray-600">
-                                <?php echo $user ?>
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                            aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="user_profile.php">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" onclick="logout();">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </li>
+    <nav class="navbar navbar-expand-lg bg-black" style="padding:40px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="assets/img/logo_long.jpg" style="width:10%;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
                 </ul>
-            </nav>
-            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-        </div>
-    </header>
-    <main id="main" style="overflow-x:hidden; overflow-y:scroll;">
-        <div class="row">
-            <br>
-        </div>
-        <section id="projects" class="menu">
-            <div class="container">
-                <div class="row">
-                    <?php
-                    $sql = "SELECT * FROM `tbl_products`";
-                    $result = $db->query($sql);
-                    while ($prow = mysqli_fetch_array($result)) {
-                        ?>
-                        <div class="col-lg-3 col-3 mb-5">
-                            <div class="card h-100">
-                                <img class="card-img-top"
-                                    src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>">
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder">
-                                            <?php echo $prow['P_Name'] ?>
-                                        </h5>
-                                        P
-                                        <?php echo doubleval($prow['P_Price']) ?>
-                                    </div>
-                                </div>
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" data-toggle="modal"
-                                            data-target="#viewProducts" data-pid="<?php echo $prow['ID'] ?>"
-                                            data-pname="<?php echo $prow['P_Name'] ?>"
-                                            data-pdes="<?php echo $prow['P_Description'] ?>"
-                                            data-ptype="<?php echo $prow['P_Type'] ?>"
-                                            data-pprice="<?php echo $prow['P_Price'] ?>"
-                                            data-whatever="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) . '' ?>"
-                                            href="#">View Product</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
+                <form class="d-flex" role="search">
+
+                </form>
+                <div class="navbar-nav my-2  my-lg-0 navbar-nav-scroll">
+
+                    <li></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="user_index.php"
+                            style="color:white; font-weight:bold;">HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            ABOUT US
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="user_about.php">CS DESIGN STUDIO</a></li>
+                            <li><a class="dropdown-item" href="user_services.php">SERVICES</a></li>
+                            <li><a class="dropdown-item" href="user_portfolio.php">PORTFOLIO</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_shop.php" style="color:white;">SHOP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_contact.php" style="color:white;">CONTACT</a>
+                    </li>
+                    <li class="nav-item dropdown" style="border:2px solid white; border-radius :10px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            <i class="fa-solid fa-user">&nbsp;</i>
+                            <?php echo $user ?>
+                        </a>
+                        <ul class="dropdown-menu" style="border: 1px solid white;">
+                            <li><a class="dropdown-item" href="user_profile.php">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a></li>
+                            <li><a class="dropdown-item" href="user_cart.php">
+                                    <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cart
+                                </a></li>
+                            <li>
+                                <hr class="hr" style="color:white;">
+                            </li>
+                            <li><a class="dropdown-item" onclick="logout();">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a></li>
+                        </ul>
+                    </li>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </nav>
+    <div class="container" style="margin-top:5%">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="gallery">
+                    <figure class="gallery_item gallery_item1">
+                        <img src="assets/img/5.jpg" class="gallery_img" alt="Image 1" style="height: 100%;">
+                    </figure>
+                    <figure class="gallery_item gallery_item2">
+                        <img src="assets/img/6.jpg" class="gallery_img" alt="Image 1" style="height: 100%;">
+                    </figure>
+                    <figure class="gallery_item gallery_item3">
+                        <img src="assets/img/7.jpg" class="gallery_img" alt="Image 1" style="height: 100%;">
+                    </figure>
+                </div>
 
-    <div class="modal fade" id="viewProducts" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <section class="py-5">
-                        <div class="container px-4 px-lg-4 my-5">
-                            <div class="row gx-4 gx-lg-5 align-items-center">
-                                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" id="productImage" src="">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="pid" id="pid" hidden>
-                                    <h2 class="display-5 fw-bolder" id="pname">Shop item template</h2>
-                                    <div class="fs-5 mb-5">
-                                        <h6 id="pprice">P</h6>
-                                    </div>
-                                    <p class="lead" id="pdes"></p>
-                                    <table class="table table-">
-                                        <tr>
-                                            <td><input class="form-control" id="qty" type="num" name="qty" value="1">
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-outline-dark" type="button"
-                                                    onclick="addToCart();" value="" id="patc">
-                                                    <i class="bi-cart-fill me-1"></i>
-                                                    Add to cart
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-outline-success" type="button"
-                                                    onclick="buyNow();">
-                                                    <i class="bi-cart-fill me-1"></i>
-                                                    Buy Now
-                                                </button>
-                                            </td>
-                                    </table>
-                                </div>
-                            </div>
+            </div>
+            <div class=" col-lg-4">
+                <div class="row" style="margin-top:10%">
+                    <h2>IMPORTANT FACTS ABOUT OUR COMPANY</h2>
+                </div>
+                <div class="row" style="margin-top:10%">
+                    <hr class="hr" style="width:20%">
+                </div>
+                <div class="row">
+                    <p> CS Design Studio stands as a beacon of innovation and expertise in the realm of interior and
+                        exterior design. With a specialized focus on modular cabinet solutions, we bring together
+                        creativity, functionality, and aesthetics to elevate any space. Our team of visionary designers
+                        and skilled craftsmen work tirelessly to turn concepts into realities, ensuring that every
+                        project reflects the unique personality and preferences of our clients</p>
+
+                    <p>At the heart of our philosophy lies a dedication to quality craftsmanship and customer
+                        satisfaction. We understand that each project is a collaboration, and we take pride in our
+                        ability to exceed expectations at every turn.</p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>PRODUCTS</h5>
+            </div>
+        </div>
+        <div class="row">
+            <?php
+            $sql = "SELECT * FROM `tbl_products` LIMIT 4";
+            $result = $db->query($sql);
+            if ($result->num_rows > 0) {
+                while ($prow = mysqli_fetch_array($result)) { ?>
+                    <div class="col-lg-3 col-sm-3 py-4">
+                        <div class="card" style="background-color: black; height: 100px;">
+                            <img src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>"
+                                style="width:100%" loading="lazy">
+                            <br>
+                            <h6 style="color: white;"><?php echo $prow['P_Name'] ?></h6>
+                            <h6 style="color: rgb(38, 157, 224); font-weight: bold">P
+                                <?php echo number_format($prow['P_Price'], 2); ?></h6>
                         </div>
-                    </section>
+                    </div>
+                <?php }
+            } else { ?>
+                <div class="col-lg-12">
+                    <div class="d-flex justify-content-center">
+                        <h2 style="color;white;">THERE ARE CURRENTLY NO PRODUCTS</h2>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="container-fluid" style="margin-top:20% ;background-color:rgb(28, 28, 28);">
+        <div class=" d-flex justify-content-around">
+            <div class=" col-lg-3 col-sm-3" style="padding:5%;">
+                <h4>CONTACT</h4>
+                <br>
+                <p>Create your brand new architecture or interioir design today! It's super easy with CS Design Studio
+                </p>
+                <br>
+                <p><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Brgy. Pagsawitan Sta Cruz Laguna</p>
+                <br>
+                <p><i class="fa-solid fa-envelope"></i> &nbsp; tjrc_11@yahoo.com</p>
+            </div>
+            <div class=" col-lg-3 col-sm-3" style="padding:5%;">
+                <h4>FACEBOOK FEED</h4>
+                <br>
+                <p><i class="fab fa-facebook-square"></i> &nbsp;It is a long established fact that a reader will
+                    be distracted by the readable content of a page when looking at its layout.</p>
+                <br>
+                <p><i class="fab fa-facebook-square"></i> &nbsp;It is a long established fact that a reader will
+                    be distracted by the readable content of a page when looking at its layout.</p>
+            </div>
+            <div class=" col-lg-3" style="padding:5%;">
+                <h4>BUSINESS PERMITS</h4>
+                <div class="row d-flex">
+                    <div class="col-lg-3 col-sm-3">
+                        <img src="assets/img/1.png" style="width:120%">
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        <img src="assets/img/2.png" style="width:120%">
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        <img src="assets/img/3.png" style="width:120%">
+                    </div>
+                </div>
+                <br>
+                <p>Business Permit: 4096</p>
+                <p>BIR: 056RC20240000000996</p>
+                <p>DTI: 5682932</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer bg-black">
+        <div class="container-fluid" style="padding:5%">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <img src="assets/img/logo.jpg" style="width:50px;">
+                </div>
+                <div>
+                    <h4>© 2024 CS DESIGN STUDIO</h4>
+                </div>
+                <div>
+                    <span style="font-size: 40px;">
+                        <i class="fab fa-facebook-square" style="margin: 0 10px 10px 0;"></i>
+                        <i class="fab fa-instagram" style="margin: 0 10px 10px 0;"></i>
+                    </span>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <footer id="footer" class="footer">
-        <div class="container">
-            <div class="row gy-3">
-                <div class="col-lg-3 col-md-6 d-flex">
-                    <i class="bi bi-geo-alt icon"></i>
-                    <div>
-                        <h4>Address</h4>
-                        <p>
-                            Brgy. Pagsawitan <br>
-                            Santa Cruz Laguna<br>
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links d-flex">
-                    <i class="bi bi-telephone icon"></i>
-                    <div>
-                        <h4>For Estimate/Canvas</h4>
-                        <p>
-                            <strong>Phone:</strong> (+63) 956 068 8086 <br>
-                            <strong>Email:</strong> tjrc_11@yahoo.com<br>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links d-flex">
-                    <i class="bi bi-clock icon"></i>
-                    <div>
-                        <h4>Opening Hours</h4>
-                        <p>
-                            <span style="color:green">Always Open</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Follow Us</h4>
-                    <div class="social-links d-flex">
-                        <a href="https://www.facebook.com/CALLADOSUNGA.DESIGNSTUDIO" target="_blank" class="facebook"><i
-                                class="bi bi-facebook"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/js/main.js"></script>
-
+    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <script>
-        function loadCart() {
-            $.ajax({
-                url: 'assets/ajax/get_total_cart.php',
-                success: function (data) {
-                    document.getElementById("tatc").textContent = data;
-                }
-            })
-        }
-        function addToCart() {
-            $.ajax({
-                type: "POST",
-                url: "assets/ajax/user_addtocart.php?user=<?php echo $user ?>",
-                data: {
-                    id: $("#patc").val(),
-                    qty: $("#qty").val(),
-                },
-                success: function (dataResult) {
-                    var dataResult = JSON.parse(dataResult);
-                    if (dataResult.statusCode == 200) {
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'Added to Cart',
-                        })
-                        loadCart();
-                    }
-                    else if (dataResult.statusCode == 201) {
-                        Swal.fire({
-                            icon: 'error',
-                            text: 'Failed',
-                        })
-                    }
-                }
-            });
-        }
-        function buyNow() {
-            $.ajax({
-                type: "POST",
-                url: "assets/php/user_buyNow.php",
-                data: {
-                    id: $("#patc").val(),
-                    qty: $("#qty").val(),
-                },
-                success: function (dataResult) {
-                    var dataResult = JSON.parse(dataResult);
-                    if (dataResult.statusCode == 200) {
-                        window.location = "user_orders.php";
-                    }
-                    else if (dataResult.statusCode == 201) {
-                        Swal.fire({
-                            icon: 'error',
-                            text: 'Failed',
-                        })
-                    }
-                }
-            });
-        }
-        $('#viewProducts').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var pid = button.data('pid')
-            var pname = button.data('pname')
-            var pdes = button.data('pdes')
-            var ptype = button.data('ptype')
-            var pprice = button.data('pprice')
-            var pimg = button.data('whatever')
-            var modal = $(this)
-
-            document.getElementById("pname").textContent = pname;
-            document.getElementById("pprice").textContent = "P " + pprice;
-            document.getElementById("pdes").textContent = pdes;
-            document.getElementById("productImage").src = pimg;
-            document.getElementById("patc").value = pid;
-
-        });
         function logout() {
             Swal.fire({
                 title: 'CONFIRMATION',
@@ -348,6 +340,7 @@ if (!isset($_SESSION['User'])) {
                 }
             })
         };
+
     </script>
 </body>
 

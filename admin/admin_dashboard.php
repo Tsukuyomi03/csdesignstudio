@@ -1,5 +1,5 @@
 <?php
-include("assets/php/config.php");
+include ("assets/php/config.php");
 session_start();
 if (!isset($_SESSION['Admin'])) {
     header("Location: " . $folder . "login_admin.php");
@@ -258,7 +258,6 @@ if (!isset($_SESSION['Admin'])) {
                                     return value;
                                 }
                             },
-                            stepSize: 1
                         }
                     }]
                 }
