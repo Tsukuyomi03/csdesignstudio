@@ -299,10 +299,11 @@ if (!isset($_SESSION['User'])) {
             var ptype = button.data('ptype')
             var pprice = button.data('pprice')
             var pimg = button.data('whatever')
+            var pprice2 = parseInt(pprice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             var modal = $(this)
 
             document.getElementById("pname").textContent = pname;
-            document.getElementById("pprice").textContent = "P " + pprice;
+            document.getElementById("pprice").textContent = "P " + pprice2;
             document.getElementById("pdes").textContent = pdes;
             document.getElementById("productImage").src = pimg;
             document.getElementById("patc").value = pid;
