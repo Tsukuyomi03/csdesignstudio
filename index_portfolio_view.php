@@ -17,10 +17,11 @@ if (!isset($_GET['id'])) {
     <title>CS DESIGN STUDIO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,440&display=swap"
-        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
         rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 <style>
     body {
@@ -61,7 +62,7 @@ if (!isset($_GET['id'])) {
         pointer-events: none;
     }
 
-    img {
+    .img {
         max-height: 100%;
         min-width: 100%;
         object-fit: cover;
@@ -75,6 +76,73 @@ if (!isset($_GET['id'])) {
     ul {
         text-decoration: none;
         list-style-type: none;
+    }
+
+
+    .modal img:hover {
+        opacity: 1;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 1em;
+        left: 50%;
+        top: 50%;
+        overflow: auto;
+        transform: translate(-50%, -50%) !important;
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.8);
+        /* Black w/ opacity */
+
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 70%;
+        max-width: 600px;
+    }
+
+    @-webkit-keyframes zoom {
+        from {
+            transform: scale(0);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0.1);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        z-index: 1;
+        color: red;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
 
@@ -151,20 +219,48 @@ if (!isset($_GET['id'])) {
 
                     echo '
                 <li style="height: 40vh; flex-grow: 10; margin:5px; text-decoration: none;" >
-                    <img style="width:100%" loading="lazy" src="data:' . $row4['PI_Image_Type'] . ';base64,' . base64_encode($row4['PI_Images']) . '"/>
+                    <img class="img" style="width:100%" loading="lazy" src="data:' . $row4['PI_Image_Type'] . ';base64,' . base64_encode($row4['PI_Images']) . '"/>
                 </li>
                     ';
                 } ?>
             </ul>
         </div>
     </div>
-    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    </div>
+
+    <div id="myModal" class="modal">
+
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
     <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="assets/js/ph-address-selector.js"></script>
     <script>
+        var modal = document.getElementById("myModal");
+        var span = $(".close");
 
+        span.on("click", function () {
+            modal.style.display = "none";
+        });
+        var images = document.getElementsByTagName("img");
+        var modalImg = document.getElementById("img01");
+        var i;
+        for (i = 0; i < images.length; i++) {
+            images[i].onclick = function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+            };
+        }
     </script>
 </body>
 

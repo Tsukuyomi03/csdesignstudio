@@ -205,17 +205,20 @@ session_start();
                             <div class="col-6">
                                 <h6>Account Information</h6>
                                 <div class="input-group mb-2">
-                                    <input type="text" class="form-control" placeholder="Username" required
-                                        name="uname">
+                                    <input type="text" class="form-control" placeholder="Username" required name="uname"
+                                        pattern="^[a-zA-Z0-9.\-_$@*!]{5,30}$">
                                 </div>
+                                <h6>NOTE: Username must consist of a minimum of 5 alphanumeric characters icluding
+                                    special characters - _ $ @ * ! </h6>
+                                <br>
                                 <div class="input-group mb-2">
                                     <input type="Password" class="form-control" placeholder="Password" id="pword1"
-                                        required name="pword">
+                                        required name="pword"
+                                        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="toggle-password bi-eye-fill"
                                                 id="toggle-password" onclick="showPassword();"></i></span>
                                     </div>
-
                                 </div>
                                 <div class="input-group mb-2">
                                     <input type="password" class="form-control" placeholder="Re-Enter Password"
@@ -225,6 +228,9 @@ session_start();
                                                 onclick="showPassword2();"></i></span>
                                     </div>
                                 </div>
+                                <h6>Note: Password must contain a minimum eight characters, at least one letter, one
+                                    number and one special character ( @$!%*#?& )
+                                </h6>
                             </div>
                         </div>
                         <button type="submit" id="submit" style="float:right;"

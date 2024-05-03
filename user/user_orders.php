@@ -39,7 +39,7 @@ if (!isset($_SESSION['User'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>CS DESIGN STUDIO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
@@ -223,9 +223,13 @@ if (!isset($_SESSION['User'])) {
                                             <li class="nav-item flex-sm-fill" role="presentation">
                                                 <button class="nav-link" id="pills-tracking-tab" data-bs-toggle="pill"
                                                     data-bs-target="#pills-tracking" type="button" role="tab"
-                                                    aria-controls="pills-tracking" aria-selected="false"><i
-                                                        class="bi-truck-front-fill" style="font-size:20px;">
-                                                    </i>TRACKING <span
+                                                    aria-controls="pills-tracking" aria-selected="false"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                        fill="currentColor" class="bi bi-truck-front-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M3.5 0A2.5 2.5 0 0 0 1 2.5v9c0 .818.393 1.544 1 2v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V14h6v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2c.607-.456 1-1.182 1-2v-9A2.5 2.5 0 0 0 12.5 0zM3 3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3.9c0 .625-.562 1.092-1.17.994C10.925 7.747 9.208 7.5 8 7.5s-2.925.247-3.83.394A1.008 1.008 0 0 1 3 6.9zm1 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2m8 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2m-5-2h2a1 1 0 1 1 0 2H7a1 1 0 1 1 0-2" />
+                                                    </svg> TRACKING <span
                                                         class="badge bg-dark text-white ms-1 rounded-pill"
                                                         id="totalTracking"></span></button>
                                             </li>
@@ -447,15 +451,19 @@ if (!isset($_SESSION['User'])) {
                                                                         readonly>
                                                                 </td>
                                                                 <td colspan=2>
-                                                                    <?php if ($prow['Order_Payment_Img'] == ''): ?>
-                                                                        <button class="btn btn-primary payment"
+                                                                    <?php
+                                                                    if ($prow['Order_Rating'] == '' || $prow['Order_Rating'] == null) {
+                                                                        echo '<button class="btn btn-success form-control"
+                                                                            style="text-align:center;"
+                                                                            data-toggle="modal" data-target="#rate"
+                                                                            data-id="' . $prow['Order_ID'] . '">Rate</button>';
+                                                                    } else {
+                                                                        echo '<button class="btn btn-success"
                                                                             style="text-align:center;margin:2px; float:right;"
-                                                                            data-toggle="modal" data-target="#payment"
-                                                                            data-id="<?php echo $prow['Order_ID'] ?>">PAY</button>
-                                                                        <button class="btn btn-danger"
-                                                                            style="text-align:center; margin:2px; float:right;">CANCEL</button>
-                                                                    <?php else: ?>
-                                                                    <?php endif; ?>
+                                                                            data-toggle="modal" data-target="#rate"
+                                                                            data-id="' . $prow['Order_ID'] . '">Archive</button>';
+                                                                    }
+                                                                    ?>
                                                                 </td>
                                                             </tr>
                                                         </table>

@@ -15,7 +15,7 @@ if (!isset($_GET['id'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CSDESIGN STUDIO</title>
+    <title>CS DESIGN STUDIO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
@@ -77,6 +77,73 @@ if (!isset($_GET['id'])) {
     ul {
         text-decoration: none;
         list-style-type: none;
+    }
+
+
+    .modal img:hover {
+        opacity: 1;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 1em;
+        left: 50%;
+        top: 50%;
+        overflow: auto;
+        transform: translate(-50%, -50%) !important;
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.8);
+        /* Black w/ opacity */
+
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 70%;
+        max-width: 600px;
+    }
+
+    @-webkit-keyframes zoom {
+        from {
+            transform: scale(0);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0.1);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        z-index: 1;
+        color: red;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
 
@@ -186,6 +253,12 @@ if (!isset($_GET['id'])) {
             </ul>
         </div>
     </div>
+    <div id="myModal" class="modal">
+
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -212,6 +285,22 @@ if (!isset($_GET['id'])) {
                 }
             })
         };
+        var modal = document.getElementById("myModal");
+        var span = $(".close");
+
+        span.on("click", function () {
+            modal.style.display = "none";
+        });
+        var images = document.getElementsByTagName("img");
+        var modalImg = document.getElementById("img01");
+        var i;
+        for (i = 0; i < images.length; i++) {
+            images[i].onclick = function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+            };
+        }
     </script>
 </body>
 
