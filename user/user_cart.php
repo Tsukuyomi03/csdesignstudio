@@ -219,7 +219,8 @@ if (!isset($_SESSION['User'])) {
                                                                 onclick="minusQTY(<?php echo $prow['Cart_ID'] ?>);">-</button>
                                                         </div>
                                                         <input type="text" class="form-control quantity"
-                                                            style="text-align:center;" value="<?php echo $prow['O_QTY'] ?>">
+                                                            style="text-align:center;" value="<?php echo $prow['O_QTY'] ?>"
+                                                            id="oqty">
                                                         <div class="input-group-append">
                                                             <button class="btn btn-outline-secondary add" type="button"
                                                                 id="AddCart"
@@ -236,7 +237,7 @@ if (!isset($_SESSION['User'])) {
                                                         onclick="delete_cart(<?php echo $prow['Cart_ID'] ?>)">Remove</button></button>
                                                 </td>
                                                 <td><button class="btn btn-primary form-control"
-                                                        onclick="buyNow(<?php echo $prow['ID'] ?>,<?php echo $prow['O_QTY'] ?>,<?php echo $prow['Cart_ID'] ?>);">Checkout</button></button>
+                                                        onclick="buyNow(<?php echo $prow['ID'] ?>,<?php echo $prow['Cart_ID'] ?>);">Checkout</button></button>
                                                 </td>
                                             </tr>
                                         </table>
@@ -335,27 +336,11 @@ if (!isset($_SESSION['User'])) {
             })
         }
 
-        function buyNow($___id, $___qty, $___cartID) {
-            $.ajax({
-                type: "POST",
-                url: "assets/php/user_buyNow_Cart.php",
-                data: {
-                    id: $___id,
-                    qty: $___qty,
-                    cartid: $___cartID,
-                },
-                success: function (dataResult) {
-                    var dataResult = JSON.parse(dataResult);
-                    if (dataResult.statusCode == 200) {
-                        window.location = "user_orders.php";
-                    } else if (dataResult.statusCode == 201) {
-                        Swal.fire({
-                            icon: 'error',
-                            text: 'Failed',
-                        })
-                    }
-                }
-            });
+        function buyNow($___id, $___cartID) {
+            var patc = $___id
+            var qty = $("#oqty").val()
+            var cid = $___cartID
+            window.location = "user_check_out_cart.php?patc=" + patc + "&qty=" + qty + "&cid=" + cid;
         }
 
     </script>

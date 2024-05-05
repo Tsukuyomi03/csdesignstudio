@@ -299,7 +299,7 @@ if (!isset($_SESSION['User'])) {
                                                                 <td>Total</td>
                                                                 <td> <input type="text" class="form-control quantity"
                                                                         style="text-align:center;"
-                                                                        value="P <?php echo $prow['Order_Total'] ?>"
+                                                                        value="P <?php echo number_format($prow['Order_Total'], 2) ?>"
                                                                         readonly>
                                                                 </td>
                                                             </tr>
@@ -353,7 +353,7 @@ if (!isset($_SESSION['User'])) {
                                                                 <td
                                                                     style="word-wrap: break-word;width: 150px;text-align:center;">
                                                                     P
-                                                                    <?php echo $prow['P_Price'] ?>
+                                                                    <?php echo number_format($prow['P_Price'], 2) ?>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -375,7 +375,7 @@ if (!isset($_SESSION['User'])) {
                                                                 <td>Total</td>
                                                                 <td> <input type="text" class="form-control quantity"
                                                                         style="text-align:center;"
-                                                                        value="P <?php echo $prow['Order_Total'] ?>"
+                                                                        value="P <?php echo number_format($prow['Order_Total'], 2) ?>"
                                                                         readonly>
                                                                 </td>
                                                             </tr>
@@ -417,7 +417,7 @@ if (!isset($_SESSION['User'])) {
                                                                 <td
                                                                     style="word-wrap: break-word;width: 150px;text-align:center;">
                                                                     P
-                                                                    <?php echo $prow['P_Price'] ?>
+                                                                    <?php echo number_format($prow['P_Price'], 2) ?>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -439,7 +439,7 @@ if (!isset($_SESSION['User'])) {
                                                                 <td>Total</td>
                                                                 <td> <input type="text" class="form-control quantity"
                                                                         style="text-align:center;"
-                                                                        value="P <?php echo $prow['Order_Total'] ?>"
+                                                                        value="P <?php echo number_format($prow['Order_Total'], 2) ?>"
                                                                         readonly>
                                                                 </td>
                                                             </tr>
@@ -451,19 +451,6 @@ if (!isset($_SESSION['User'])) {
                                                                         readonly>
                                                                 </td>
                                                                 <td colspan=2>
-                                                                    <?php
-                                                                    if ($prow['Order_Rating'] == '' || $prow['Order_Rating'] == null) {
-                                                                        echo '<button class="btn btn-success form-control"
-                                                                            style="text-align:center;"
-                                                                            data-toggle="modal" data-target="#rate"
-                                                                            data-id="' . $prow['Order_ID'] . '">Rate</button>';
-                                                                    } else {
-                                                                        echo '<button class="btn btn-success"
-                                                                            style="text-align:center;margin:2px; float:right;"
-                                                                            data-toggle="modal" data-target="#rate"
-                                                                            data-id="' . $prow['Order_ID'] . '">Archive</button>';
-                                                                    }
-                                                                    ?>
                                                                 </td>
                                                             </tr>
                                                         </table>

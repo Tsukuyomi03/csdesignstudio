@@ -129,7 +129,7 @@ session_start();
                 echo " <h1> ALBUMS </h1>";
                 while ($row4 = $result4->fetch_assoc()) {
                     echo '
-                    <div class="col-lg-3 card m-2">
+                    <div class="col-lg-3 col-sm-5 col-4 col-md-4 card m-1">
                         <div class="card-header">
                             <h4 class="text-center">' . $row4['P_Name'] . '</h4>
                         </div>

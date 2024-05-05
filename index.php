@@ -133,7 +133,7 @@ session_start();
             </div>
         </div>
     </nav>
-    <div class="container" style="margin-top:5%">
+    <div class="container">
         <div class="row">
             <div class="col-lg-8">
                 <div class="gallery">
@@ -182,7 +182,7 @@ session_start();
             $result = $db->query($sql);
             if ($result->num_rows > 0) {
                 while ($prow = mysqli_fetch_array($result)) { ?>
-                    <div class="col-lg-3 col-sm-3 py-4">
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-3">
                         <div class="card" style="background-color: black; height: 100px;">
                             <img src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>"
                                 style="width:100%" loading="lazy">
@@ -203,20 +203,24 @@ session_start();
             <?php } ?>
         </div>
     </div>
-    <div class="container-fluid" style="margin-top:20% ;background-color:rgb(28, 28, 28);">
-        <div class=" d-flex justify-content-around">
-            <div class=" col-lg-3 col-sm-3" style="padding:5%;">
-                <h4>CONTACT</h4>
+    <div class="container" style="margin-top:20%">
+        <div class=" row">
+            <div class="col-lg-4 col-md-12 col-12">
                 <br>
-                <p>Create your brand new architecture or interioir design today! It's super easy with CS Design Studio
+                <h2>CONTACT</h2>
+                <br>
+                <p>Create your brand new architecture or interioir design today! It's super easy with CS Design
+                    Studio
                 </p>
                 <br>
                 <p><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Brgy. Pagsawitan Sta Cruz Laguna</p>
                 <br>
                 <p><i class="fa-solid fa-envelope"></i> &nbsp; tjrc_11@yahoo.com</p>
             </div>
-            <div class=" col-lg-3 col-sm-3" style="padding:5%;">
-                <h4>FACEBOOK FEED</h4>
+            <br>
+            <div class="col-lg-4 col-md-12 col-12">
+                <br>
+                <h2>FACEBOOK FEED</h2>
                 <br>
                 <p><i class="fab fa-facebook-square"></i> &nbsp;It is a long established fact that a reader will
                     be distracted by the readable content of a page when looking at its layout.</p>
@@ -224,24 +228,21 @@ session_start();
                 <p><i class="fab fa-facebook-square"></i> &nbsp;It is a long established fact that a reader will
                     be distracted by the readable content of a page when looking at its layout.</p>
             </div>
-            <div class=" col-lg-3" style="padding:5%;">
-                <h4>BUSINESS PERMITS</h4>
-                <div class="row d-flex">
-                    <div class="col-lg-3 col-sm-3">
-                        <img src="assets/img/1.png" style="width:120%" loading="lazy">
-                    </div>
-                    <div class="col-lg-3 col-sm-3">
-                        <img src="assets/img/2.png" style="width:120%" loading="lazy">
-                    </div>
-                    <div class="col-lg-3 col-sm-3">
-                        <img src="assets/img/3.png" style="width:120%" loading="lazy">
-                    </div>
+            <br>
+            <div class="col-lg-4 col-md-12 col-12">
+                <br>
+                <h2>BUSINESS PERMITS</h2>
+                <div class="row d-flex flex-row">
+                    <img src="assets/img/1.png" style="width:20%" loading="lazy">
+                    <img src="assets/img/2.png" style="width:20%" loading="lazy">
+                    <img src="assets/img/3.png" style="width:20%" loading="lazy">
                 </div>
                 <br>
                 <p>Business Permit: 4096</p>
                 <p>BIR: 056RC20240000000996</p>
                 <p>DTI: 5682932</p>
             </div>
+            <br>
         </div>
     </div>
     <div class="footer" style="background-color:black">

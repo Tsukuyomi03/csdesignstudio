@@ -271,25 +271,9 @@ if (!isset($_SESSION['User'])) {
         }
 
         function buyNow() {
-            $.ajax({
-                type: "POST",
-                url: "assets/php/user_buyNow.php",
-                data: {
-                    id: $("#patc").val(),
-                    qty: $("#qty").val(),
-                },
-                success: function (dataResult) {
-                    var dataResult = JSON.parse(dataResult);
-                    if (dataResult.statusCode == 200) {
-                        window.location = "user_orders.php";
-                    } else if (dataResult.statusCode == 201) {
-                        Swal.fire({
-                            icon: 'error',
-                            text: 'Failed',
-                        })
-                    }
-                }
-            });
+            var patc = $("#patc").val()
+            var qty = $("#qty").val()
+            window.location = "user_check_out.php?patc=" + patc + "&qty=" + qty;
         }
         $('#viewProducts').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)

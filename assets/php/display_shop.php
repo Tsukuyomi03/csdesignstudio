@@ -7,7 +7,7 @@ $result = $db->query($sql);
 if ($result->num_rows > 0) {
     while ($prow = mysqli_fetch_array($result)) {
         ?>
-        <div class="col-lg-3 col-3 mb-5">
+        <div class="col-lg-3 col-4 col-sm-5 col-md-12 mb-5">
             <div class="card h-100">
                 <img class="card-img-top"
                     src="<?php echo 'data:' . $prow['P_Img_Type'] . ';base64,' . base64_encode($prow['P_Img_Name']) ?>">
