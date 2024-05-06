@@ -86,34 +86,35 @@ session_start();
         text-align: justify;
         font-size: 18px;
     }
+
+    .navbar-toggler-icon {
+        color: white;
+    }
 </style>
 
 <body>
     <nav class="navbar navbar-expand-lg bg-black" style="padding: 40px;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="assets/img/logo_long.jpg" style="width:20%;" loading="lazy"></a>
+            <a class="navbar-brand" href="#"><img src="assets/img/logo.jpg" style="width:50px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"><i class="fa fa-navicon"
+                        style="color:#fff; font-size:28px;"></i></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-
                 </ul>
                 <form class="d-flex" role="search">
-
                 </form>
                 <div class="navbar-nav my-2  my-lg-0 navbar-nav-scroll">
-
                     <li class="nav-item">
-                        <strong><a class="nav-link active" aria-current="page" href="index.php"
-                                style="color:white; font-weight:bold">HOME</a></strong>
+                        <a class="nav-link active" aria-current="page" href="index.php" style="color:white;">HOME</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false" style="color:white;">
-                            ABOUT US
-                        </a>
+                        <strong><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="color:white;">
+                                ABOUT US
+                            </a></strong>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="index_about.php">CS DESIGN STUDIO</a></li>
                             <li><a class="dropdown-item" href="index_services.php">SERVICES</a></li>
@@ -127,13 +128,13 @@ session_start();
                         <a class="nav-link" href="index_contact.php" style="color:white;">CONTACT</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="index_login.php" style="color:white;">LOGIN</a>
+                        <a class="nav-link" href="index_login.php" style="color:white;">LOGIN</a>
                     </li>
                 </div>
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" style="margin-top:5%">
         <div class="row">
             <div class="col-lg-8">
                 <div class="gallery">
