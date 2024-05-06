@@ -109,7 +109,7 @@ if (!isset($_SESSION['User'])) {
     </div>
     <nav class="navbar navbar-expand-lg bg-black" style="padding:40px;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="assets/img/logo_long.jpg" style="width:10%;"></a>
+            <a class="navbar-brand" href="#"><img src="assets/img/logo.jpg" style="width:50px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"><i class="fa fa-navicon"

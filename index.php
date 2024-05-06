@@ -108,13 +108,14 @@ session_start();
                 </form>
                 <div class="navbar-nav my-2  my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php" style="color:white;">HOME</a>
+                        <a class="nav-link active" aria-current="page" href="index.php"
+                            style="color:white; font-weight:bold;">HOME</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <strong><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false" style="color:white;">
-                                ABOUT US
-                            </a></strong>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="color:white;">
+                            ABOUT US
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="index_about.php">CS DESIGN STUDIO</a></li>
                             <li><a class="dropdown-item" href="index_services.php">SERVICES</a></li>
